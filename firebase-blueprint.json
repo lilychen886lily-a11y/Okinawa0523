@@ -1,0 +1,24 @@
+{
+  "entities": {
+    "Transaction": {
+      "title": "Budget Transaction",
+      "description": "A record of income or expense in the public fund.",
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number", "description": "Amount in JPY" },
+        "type": { "type": "string", "enum": ["income", "expense"], "description": "Type of transaction" },
+        "category": { "type": "string", "description": "Category (e.g., Rent, Food, Membership)" },
+        "description": { "type": "string", "description": "Detailed description" },
+        "date": { "type": "string", "format": "date-time", "description": "Transaction date" },
+        "addedBy": { "type": "string", "description": "User ID/Name who added it" }
+      },
+      "required": ["amount", "type", "category", "date"]
+    }
+  },
+  "firestore": {
+    "transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Collection of all income and expense transactions."
+    }
+  }
+}

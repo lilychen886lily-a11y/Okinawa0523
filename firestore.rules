@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function isSignedIn() { return request.auth != null; }
+    
+    match /transactions/{transactionId} {
+      allow read: if true; 
+      allow create: if isValidTransaction(request.resource.data);
+      allow delete: if true; // Enabling client-side deletion as requested
+    }
+
+    function isValidTransaction(data) {
+      return data.keys().hasAll(['amount', 'type', 'category', 'date', 'description', 'addedBy'])
+        && data.keys().size() == 6
+        && data.amount is number
+        && (data.type == 'income' || data.type == 'expense')
+        && data.category is string && data.category.size() <= 100
+        && data.description is string && data.description.size() <= 500
+        && data.date is string && data.date.size() <= 50
+        && data.addedBy is string && data.addedBy.size() <= 100;
+    }
+  }
+}
