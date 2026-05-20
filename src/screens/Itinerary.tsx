@@ -79,29 +79,32 @@ export function Itinerary() {
               />
 
               <TimelineItem 
-                time="18:00" 
-                title="小祿站周邊活動" 
-                description="逛 AEON Mall Naha、大國藥妝或品嚐通堂拉麵"
-              />
-
-              <TimelineItem 
-                time="19:30" 
-                title="搭乘電車前往安里站" 
-                description="從小祿站搭乘單軌電車 (Yui Rail) 前往榮町市場探險"
-              />
-
-              <TimelineItem 
                 type="accommodation"
-                time="辦理入住" 
-                title="Y's Inn Naha Oroku Ekimae" 
+                time="18:00" 
+                title="辦理入住：那霸小祿站前 Y's Inn" 
                 description={
-                  <div className="mt-3 space-y-1 text-sm text-on-surface-variant">
-                    <p className="flex items-start gap-2"><MapIcon size={14} className="mt-1" />1 Chome-1-10 Kanagusuku, Naha, Okinawa 901-0155</p>
-                    <p className="flex items-center gap-2"><Phone size={14} />+81 98-857-1110</p>
+                  <div className="space-y-2">
+                    <p>抵達小祿站後直接前往飯店辦理 Check-in，放妥大件行李、稍作休息整理，用最輕便的狀態展開沖繩第一晚的探索！飯店就在小祿單軌電車站旁邊，交通和機能都極其便利。</p>
+                    <div className="mt-3 space-y-1 text-xs text-on-surface-variant">
+                      <p className="flex items-start gap-2"><MapIcon size={14} className="mt-1" />1 Chome-1-10 Kanagusuku, Naha, Okinawa 901-0155</p>
+                      <p className="flex items-center gap-2"><Phone size={14} />+81 98-857-1110</p>
+                    </div>
                   </div>
                 }
-                actionLabel="在 Google 地圖上查看"
+                actionLabel="在 Google 地圖上查看飯店"
                 onClickAction={() => window.open('https://maps.google.com/?q=Y\'s+Inn+Naha+Oroku+Ekimae', '_blank')}
+              />
+
+              <TimelineItem 
+                time="18:45" 
+                title="小祿站周邊活動 & 自由晚餐" 
+                description="行李放好後直接步行出發！小祿站周邊極為熱鬧，可自由漫步、逛 AEON Mall Naha、採買大國藥妝，或前往極具人氣的「琉球新麵 通堂」小祿本店，品嚐經典的沖繩男人麵（厚實豬骨）或女人麵（清淡鹽味）拉麵當晚餐！"
+              />
+
+              <TimelineItem 
+                time="20:30" 
+                title="搭乘電車前往安里站 (榮町市場)" 
+                description="晚上若還有體力，推薦從小祿站搭乘單軌電車 (Yui Rail) 前往安里站的「榮町市場」居酒屋街！在溫馨、復古且充滿昭和風情的隱密市場小巷中吃章魚燒、串燒，感受日本在地庶民的夜生活（想要提早休息的人也可留在小祿站周邊，或回飯店舒舒服服泡個澡）。"
               />
               
               <TimelineSection 
@@ -550,43 +553,105 @@ export function Itinerary() {
                 onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=星野リゾート+バンタカフェ', '_blank')}
               />
 
-              <DrivingInfo distance="17.5 km" duration="約 35 分鐘" />
+              <DrivingInfo distance="45 km" duration="約 50 分鐘" />
 
               <TimelineItem 
-                time="12:30" 
-                title="AEON MALL Okinawa Rycom (逛街 & 午餐)" 
-                description="享受沖繩最大商場的冷氣、美食街與購物，可以在這裡舒舒服服待上幾個小時。"
+                time="12:20" 
+                title="沖繩世界文化王國・玉泉洞" 
+                description={
+                  <div className="space-y-2">
+                    <p>首站抵達玉泉洞！欣賞歷經三十萬年歲月形成的雄偉鐘乳石洞（日本三大鐘乳石洞之一），全長約 5 公里（開放 890 公尺），奇幻無比。步出洞穴後可順道漫步充滿古樸風情的王國村。</p>
+                    <div className="text-[11px] text-on-surface-variant">
+                      <p>地址：南城市玉城前川 1336</p>
+                      <p>營業時間：09:00 - 17:30 (最晚 16:30 前入場)</p>
+                    </div>
+                  </div>
+                }
+                actionIcon={MapIcon}
+                actionLabel="查看玉泉洞地圖"
+                onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=Okinawa+World+Gyokusendo', '_blank')}
+              />
+
+              <DrivingInfo distance="5.5 km" duration="約 10 分鐘" />
+
+              <TimelineItem 
+                time="14:00" 
+                title="點心：中本鮮魚店 (中本天婦羅店)" 
+                description={
+                  <div className="space-y-2">
+                    <p>直接開往奧武島！先去島上排隊人潮不絕、最著名的中本鮮魚店享用沖繩風味天婦羅（海鮮、花枝、蔬菜，外皮厚實蓬鬆、現炸起鍋超香甜美味）。</p>
+                    <div className="text-[11px] text-on-surface-variant">
+                      <p>地址：南城市玉城字奧武 9</p>
+                    </div>
+                  </div>
+                }
                 actionIcon={ShoppingBag}
-                actionLabel="查看地圖"
-                onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=AEON+Mall+Okinawa+Rycom', '_blank')}
+                actionLabel="查看中本天婦羅地圖"
+                onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=中本鮮魚店', '_blank')}
               />
 
               <TimelineItem 
-                time="15:30" 
-                title="次郎鮮魚店 (Jiro Fish Market) - 買炸物" 
+                time="14:35" 
+                title="午餐：大福食堂 (奧武島)" 
                 description={
                   <div className="space-y-2">
-                    <p>依照您的順序，從商場離開後前來購買熱騰騰的天婦羅。備註：需往北稍微回頭開回讀谷村漁港區域。</p>
+                    <p>同樣位於奧武島上的熱門海鮮定食屋。推薦品嚐超高 CP 值的鮮魚定食、沖繩麵、或現切生魚片，分量驚人又美味，是完美的沖繩在地午餐！</p>
                     <div className="text-[11px] text-on-surface-variant">
-                      <p>地址：讀谷村都屋 33</p>
+                      <p>地址：南城市玉城字奧武 26</p>
                     </div>
                   </div>
                 }
                 actionIcon={Utensils}
-                actionLabel="查看地圖"
-                onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=次郎鮮魚店+読谷村', '_blank')}
+                actionLabel="查看大福食堂地圖"
+                onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=大福食堂+奧武島', '_blank')}
               />
 
-              <DrivingInfo distance="45 km" duration="約 1 小時 10 分鐘" />
+              <DrivingInfo distance="6.5 km" duration="約 12 分鐘" />
+
+              <TimelineItem 
+                time="15:40" 
+                title="好市多沖繩南城店 (Costco Wholesale)" 
+                description={
+                  <div className="space-y-2">
+                    <p>下午來到全新開幕的沖繩南城好市多大採購！瘋狂採買晚上別墅 Party 的 BBQ 烤肉食材、高檔美牛、冰鎮啤酒、零食飲料、以及水果和壽司熟食拼盤！</p>
+                    <div className="text-[11px] text-on-surface-variant">
+                      <p>地址：南城市つきしろIC南1街区1</p>
+                    </div>
+                  </div>
+                }
+                actionIcon={ShoppingBag}
+                actionLabel="查看好市多地圖"
+                onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=Costco+Wholesale+Okinawa+Nanjo', '_blank')}
+              />
+
+              <DrivingInfo distance="4 km" duration="約 8 分鐘" />
+
+              <TimelineItem 
+                time="16:50" 
+                title="次郎鮮魚店 (南城市佐敷)" 
+                description={
+                  <div className="space-y-2">
+                    <p>進入別墅前的最後一站！前往次郎鮮魚店帶走一盒新鮮肥美的綜合生魚片。直接打包到車上，作為今晚 BBQ 派對的最頂級開胃前菜！</p>
+                    <div className="text-[11px] text-on-surface-variant">
+                      <p>地址：日本 〒901-1404 Okinawa, Nanjo, Sashiki, Fusozaki-229-1</p>
+                    </div>
+                  </div>
+                }
+                actionIcon={ShoppingBag}
+                actionLabel="查看次郎鮮魚店地圖"
+                onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=次郎鮮魚店+南城市', '_blank')}
+              />
+
+              <DrivingInfo distance="4.5 km" duration="約 10 分鐘" />
 
               <TimelineItem 
                 type="accommodation"
-                time="18:30" 
-                title="南城市水晶別墅 (入住)" 
+                time="17:30" 
+                title="南城市水晶別墅 (入住 & BBQ 派對)" 
                 description={
                   <div className="mt-3 space-y-1 text-sm text-on-surface-variant font-bold text-primary">
                     <p>Crystal Villa Nanjo</p>
-                    <p className="text-xs font-normal">結束一天的採買，回別墅放鬆聚會！</p>
+                    <p className="text-xs font-normal">傍晚辦理入住包棟海景別墅。趕緊放生魚片到冰箱、洗手生火，開啟我們沖繩南城好市多 BBQ 海景狂歡派對，一邊看海一邊享受沖繩盛夏聚會！</p>
                   </div>
                 }
                 actionLabel="在 Google 地圖上查看"
@@ -692,6 +757,25 @@ export function Itinerary() {
                   actionLabel="在 Google 地圖上查看"
                   onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=Coldio+Smart+Resort+Kouri+Island', '_blank')}
                 />
+
+                <DrivingInfo distance="18 km" duration="約 25 分鐘" />
+
+                <TimelineItem 
+                  time="18:00" 
+                  title="晚餐：百年古家 大家 (阿古豬極致饗宴)" 
+                  description={
+                    <div className="space-y-2">
+                      <p>晚餐造訪沖繩北部超高人氣的景觀古民家餐廳「百年古家 大家」。在具備百年歷史的傳統琉球古建筑中，伴隨著清幽的日式庭園與流水瀑布，品嚐頂級奢華的『阿古豬 (Agu Pork) 涮涮鍋』或燒肉。肉質Q彈甘甜、油脂香醇，極具沖繩在地特色！</p>
+                      <div className="text-[11px] text-on-surface-variant">
+                        <p>地址：日本 〒905-0004 沖縄県名護市中山 90</p>
+                        <p className="font-semibold text-secondary">⚠️ 提醒：餐廳極其熱門，需提前預約訂位喔！</p>
+                      </div>
+                    </div>
+                  }
+                  actionIcon={Utensils}
+                  actionLabel="查看大家阿古豬地圖"
+                  onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=百年古家+大家+沖繩', '_blank')}
+                />
               </div>
             </div>
           </>
@@ -719,31 +803,43 @@ export function Itinerary() {
               <TimelineItem 
                 time="10:00" 
                 title="辦理退房手續" 
-                description="向美麗的古宇利島道別，收拾行李準備啟程。可以在附近吃夏威夷蝦蝦飯或稍作停留。"
+                description="向美麗的古宇利島道別，收拾行李準備啟程。最後回顧絕美的高處海景，開車南下返程。"
                 actionIcon={MapPin}
                 actionLabel="周邊景點：古宇利海灘"
                 onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=Kouri+Beach', '_blank')}
               />
 
-              <DrivingInfo distance="85 km" duration="約 1 小時 30 分鐘" />
+              <DrivingInfo distance="62 km" duration="約 55 分鐘" />
 
               <TimelineItem 
-                time="11:30" 
-                title="返回那霸與午餐" 
-                description="駕車返回那霸市區，可在機場附近或市區享用沖繩最後的午餐。"
+                time="11:00" 
+                title="永旺夢樂城沖繩來客夢 (AEON MALL Okinawa Rycom) & 自由午餐" 
+                description={
+                  <div className="space-y-2">
+                    <p>抵達沖繩最大型的旗艦購物中心！共計有五層樓、超過220家店鋪，內部更有高達100噸的巨大水族箱。大家可以在這裡盡情做最後的大採購、購買免稅藥妝、伴手禮、日系服飾。</p>
+                    <p>午餐在極多選擇的美食街或美食廣場自由享用，享受豐富多樣的沖繩、日式與各國料理！</p>
+                    <div className="text-[11px] text-on-surface-variant">
+                      <p>地址：〒901-2306 沖縄県中頭郡北中城村ライカム 1</p>
+                      <p className="font-semibold text-secondary">🛍️ 提示：可以先至諮詢櫃檯或官網領取外國遊客專屬優惠券喔！</p>
+                    </div>
+                  </div>
+                }
+                actionIcon={ShoppingBag}
+                actionLabel="查看永旺夢樂城地圖"
+                onClickAction={() => window.open('https://www.google.com/maps/search/?api=1&query=AEON+MALL+Okinawa+Rycom', '_blank')}
               />
 
-              <DrivingInfo distance="10 km" duration="約 20 分鐘" />
+              <DrivingInfo distance="23 km" duration="約 35 分鐘" />
 
               <TimelineItem 
-                time="13:30" 
+                time="15:30" 
                 title="ABC 租車公司 (最後還車)" 
                 description={
                   <div className="space-y-2">
-                    <p>將續玩組的車開至 ABC 租車公司歸還。還車前請記得先將油箱加滿。</p>
+                    <p>將續玩組的車開至 ABC 租車公司歸還。還車前請記得先將加油站加滿油（通常建議加滿並保留收據以備查驗）。</p>
                     <div className="p-3 bg-secondary/5 rounded-lg border border-secondary/20 mt-2">
                       <p className="text-xs font-bold text-secondary">🚗 還車點：ABC 租車公司 (空港店)</p>
-                      <p className="text-[11px] text-on-surface-variant">還車後搭乘免費接駁車前往那霸機場準備搭機。</p>
+                      <p className="text-[11px] text-on-surface-variant">辦妥還車與驗車手續後，搭乘租車公司的免費接駁巴士前往那霸機場國際航廈。</p>
                     </div>
                   </div>
                 }
@@ -753,9 +849,9 @@ export function Itinerary() {
               />
 
               <TimelineItem 
-                time="14:30" 
-                title="抵達那霸機場 (踏上歸途)" 
-                description="辦理登機與行李託運手續，在免稅店做最後採買，帶著滿滿的回憶準備登機返台。"
+                time="16:30" 
+                title="抵達那霸機場 (搭機準備)" 
+                description="辦理行李託運、領取登機證並進行出境安檢。可在免稅店進行最後的採購，隨後前往登機門準備返台（預計搭乘 19:30 起飛的虎航 IT793 班機返回台中）。"
                 actionIcon={Plane}
                 actionLabel="查看機場資訊"
                 onClickAction={() => window.open('https://www.naha-airport.co.jp/zh-hant/', '_blank')}

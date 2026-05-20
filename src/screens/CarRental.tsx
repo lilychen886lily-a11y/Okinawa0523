@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Home, Calendar, User, Car, Wallet, MapPin, Phone, Info, AlertCircle } from 'lucide-react';
+import { Home, Calendar, User, Car, Wallet, MapPin, Phone, Info, AlertCircle, ArrowLeft, MoreVertical, Tag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
@@ -32,16 +32,20 @@ export function CarRental() {
   return (
     <div className="pb-44 bg-background min-h-screen">
       {/* Sticky Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl flex items-center justify-between px-6 py-4 border-b border-outline-variant/10">
+      <header className="sticky top-0 z-50 bg-white flex items-center justify-between px-4 py-3 border-b border-outline-variant/10 shadow-sm">
         <button 
           onClick={() => navigate(-1)}
-          className="material-symbols-outlined text-primary p-2 rounded-full hover:bg-surface-container transition-colors"
+          className="p-2 rounded-full hover:bg-surface-container transition-colors text-primary flex items-center justify-center shrink-0"
+          aria-label="返回"
         >
-          arrow_back
+          <ArrowLeft size={24} />
         </button>
-        <h1 className="font-bold text-lg text-on-surface">租車詳情</h1>
-        <button className="material-symbols-outlined text-primary p-2 rounded-full hover:bg-surface-container transition-colors">
-          more_vert
+        <h1 className="font-bold text-lg text-on-surface text-center flex-1">租車詳情</h1>
+        <button 
+          className="p-2 rounded-full hover:bg-surface-container transition-colors text-primary flex items-center justify-center shrink-0"
+          aria-label="更多"
+        >
+          <MoreVertical size={24} />
         </button>
       </header>
 
@@ -87,8 +91,8 @@ export function CarRental() {
           currentCar.color.replace('border-', 'border-')
         )}>
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-              <span className="material-symbols-outlined text-primary text-xl">confirmation_number</span>
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+              <Tag size={20} className="text-primary" />
             </div>
             <h3 className="font-bold text-lg text-on-surface">預約詳情</h3>
           </div>
@@ -154,7 +158,7 @@ export function CarRental() {
 
             <div className="bg-primary/5 rounded-3xl p-6 border border-primary/10 flex items-start gap-5">
               <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-primary text-2xl">airport_shuttle</span>
+                <Car size={24} className="text-primary" />
               </div>
               <div className="space-y-1">
                 <p className="text-sm font-black text-primary uppercase tracking-wider">機場接駁資訊</p>
