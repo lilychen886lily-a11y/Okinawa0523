@@ -70,6 +70,15 @@ function handleFirestoreError(error: unknown, operationType: OperationType, path
   throw new Error(JSON.stringify(errInfo));
 }
 
+function cleanAmountInput(val: string): string {
+  // Strip currency symbols (¥, ￥, $, NT$, etc.) and common separators (commas, spaces, letters)
+  // We keep only digits, period/dot, and minus/plus signs
+  let cleaned = val.replace(/[¥￥$nNtT\s,]/gi, '');
+  // If there are still non-numeric characters (except dot), strip them
+  cleaned = cleaned.replace(/[^0-9.]/g, '');
+  return cleaned;
+}
+
 export function Budget() {
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -135,7 +144,8 @@ export function Budget() {
   // Form submit handler
   const handleAddTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
+    const sanitizedAmount = cleanAmountInput(amount);
+    if (!sanitizedAmount || isNaN(Number(sanitizedAmount)) || Number(sanitizedAmount) <= 0) {
       alert('請輸入有效的金額');
       return;
     }
@@ -148,7 +158,7 @@ export function Budget() {
     setErrorMessage(null);
 
     const payload = {
-      amount: Number(amount),
+      amount: Number(sanitizedAmount),
       type,
       category,
       description: description.trim() || category,
@@ -193,7 +203,8 @@ export function Budget() {
   };
 
   const handleUpdateTransaction = async (id: string) => {
-    if (!editAmount || isNaN(Number(editAmount)) || Number(editAmount) <= 0) {
+    const sanitizedAmount = cleanAmountInput(editAmount);
+    if (!sanitizedAmount || isNaN(Number(sanitizedAmount)) || Number(sanitizedAmount) <= 0) {
       alert('請輸入有效的金額');
       return;
     }
@@ -203,7 +214,7 @@ export function Budget() {
     }
 
     const payload = {
-      amount: Number(editAmount),
+      amount: Number(sanitizedAmount),
       type: editType,
       category: editCategory,
       description: editDescription.trim(),
@@ -259,6 +270,63 @@ export function Budget() {
       }
     } finally {
       setIsClearing(false);
+    }
+  };
+
+  // Import single accommodation expense
+  const handleImportAccommodation = async (name: string, price: number, defaultPayer: string) => {
+    setErrorMessage(null);
+    const payload = {
+      amount: price,
+      type: 'expense' as const,
+      category: 'Stay',
+      description: name,
+      date: new Date().toISOString().split('T')[0],
+      addedBy: auth.currentUser?.email || 'Anonymous',
+      payer: defaultPayer,
+      splitWith: MEMBERS,
+    };
+
+    try {
+      await addDoc(collection(db, 'transactions'), payload);
+    } catch (error) {
+      try {
+        handleFirestoreError(error, OperationType.CREATE, 'transactions');
+      } catch (err: any) {
+        setErrorMessage('導入住宿費用失敗：' + err.message);
+      }
+    }
+  };
+
+  // Import all accommodation expenses at once
+  const handleImportAllAccommodations = async (defaultPayer: string) => {
+    setErrorMessage(null);
+    const accommodations = [
+      { name: '寧波天一城隍廟漫心府 (2晚)', price: 953.7 },
+      { name: '寧波花間堂·韓嶺 (1晚)', price: 399.5 }
+    ];
+
+    try {
+      const promises = accommodations.map((acc) => {
+        const payload = {
+          amount: acc.price,
+          type: 'expense' as const,
+          category: 'Stay',
+          description: acc.name,
+          date: new Date().toISOString().split('T')[0],
+          addedBy: auth.currentUser?.email || 'Anonymous',
+          payer: defaultPayer,
+          splitWith: MEMBERS,
+        };
+        return addDoc(collection(db, 'transactions'), payload);
+      });
+      await Promise.all(promises);
+    } catch (error) {
+      try {
+        handleFirestoreError(error, OperationType.CREATE, 'transactions');
+      } catch (err: any) {
+        setErrorMessage('一鍵導入住宿費用失敗：' + err.message);
+      }
     }
   };
 
@@ -510,24 +578,99 @@ export function Budget() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Column 1: Add Transaction (1 Span) */}
-        <div className="lg:col-span-1 bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10 space-y-4 h-fit">
-          <h3 className="font-extrabold text-lg text-on-surface flex items-center gap-2">
-            <Plus size={20} className="text-primary" />
-            新增共同花費
-          </h3>
+        <div className="lg:col-span-1 space-y-6">
+          
+          {/* Quick Import Card */}
+          <div className="bg-[#00677d]/5 rounded-2xl p-6 border border-[#00677d]/20 space-y-4">
+            <h3 className="font-extrabold text-base text-[#00677d] flex items-center gap-2">
+              <PieChart size={18} />
+              快捷導入住宿金額
+            </h3>
+            <p className="text-xs text-on-surface-variant leading-relaxed">
+              一鍵將行程中的酒店款項記錄到雲端（預設 <span className="font-semibold text-[#00677d]">3人平分</span>，自動轉為人民幣結算）。
+            </p>
 
-          <form onSubmit={handleAddTransaction} className="space-y-4 pt-1">
+            {/* Payer selection for accommodation */}
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-outline uppercase block">選擇實際付款人 (Payer)</label>
+              <div className="grid grid-cols-3 gap-1.5">
+                {MEMBERS.map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => setPayer(m)}
+                    className={cn(
+                      "py-1.5 px-2 rounded-xl border text-[11px] font-bold transition-all",
+                      payer === m 
+                        ? "bg-[#00677d] text-white border-[#00677d] shadow-xs" 
+                        : "bg-white text-on-surface-variant border-outline-variant/40 hover:bg-[#00677d]/5"
+                    )}
+                  >
+                    {m}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2 pt-1">
+              <button
+                type="button"
+                onClick={() => handleImportAccommodation('寧波天一城隍廟漫心府 (2晚)', 953.7, payer)}
+                className="w-full bg-white hover:bg-emerald-50/40 text-on-surface border border-outline-variant/30 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-between group active:scale-98"
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  漫心府 (2晚)
+                </span>
+                <span className="font-extrabold text-primary">¥ 953.7</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleImportAccommodation('寧波花間堂·韓嶺 (1晚)', 399.5, payer)}
+                className="w-full bg-white hover:bg-emerald-50/40 text-on-surface border border-outline-variant/30 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-between group active:scale-98"
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  花間堂·韓嶺
+                </span>
+                <span className="font-extrabold text-primary">¥ 399.5</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleImportAllAccommodations(payer)}
+                className="w-full bg-[#00677d] hover:bg-[#005d90] text-white py-2.5 px-3 rounded-xl text-xs font-bold transition-all shadow-sm active:scale-98 flex items-center justify-center gap-1.5"
+              >
+                <Plus size={14} />
+                一鍵導入上述全部 (¥ 1,353.2)
+              </button>
+            </div>
+            
+            <div className="text-[10px] text-outline text-center font-medium">
+              * 導入後會立刻同步雲端，更新下方平分餘額。
+            </div>
+          </div>
+
+          {/* Manual Form Card */}
+          <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10 space-y-4 h-fit">
+            <h3 className="font-extrabold text-lg text-on-surface flex items-center gap-2">
+              <Plus size={20} className="text-primary" />
+              新增其他共同花費
+            </h3>
+
+            <form onSubmit={handleAddTransaction} className="space-y-4 pt-1">
             {/* Amount */}
             <div className="space-y-1.5">
               <label className="text-[11px] font-bold text-outline uppercase">金額 (CNY / TWD)</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold text-sm">¥</span>
                 <input 
-                  type="number" 
-                  step="any"
+                  type="text" 
+                  inputMode="decimal"
                   placeholder="0.00"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={(e) => setAmount(cleanAmountInput(e.target.value))}
                   className="w-full bg-white border border-outline-variant/40 rounded-xl py-2.5 pl-8 pr-4 text-sm font-bold text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20"
                   required
                 />
@@ -640,6 +783,7 @@ export function Budget() {
             </button>
           </form>
         </div>
+      </div>
 
         {/* Column 2 & 3: History List (2 Spans) */}
         <div className="lg:col-span-2 space-y-4">
@@ -693,10 +837,10 @@ export function Budget() {
                           <div className="space-y-1">
                             <label className="text-[10px] font-bold text-outline">金額</label>
                             <input 
-                              type="number" 
-                              step="any"
+                              type="text" 
+                              inputMode="decimal"
                               value={editAmount}
-                              onChange={(e) => setEditAmount(e.target.value)}
+                              onChange={(e) => setEditAmount(cleanAmountInput(e.target.value))}
                               className="w-full bg-white border border-outline-variant/40 rounded-lg p-2 text-xs font-bold text-on-surface"
                             />
                           </div>
