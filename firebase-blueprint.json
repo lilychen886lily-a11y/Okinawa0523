@@ -5,14 +5,16 @@
       "description": "A record of income or expense in the public fund.",
       "type": "object",
       "properties": {
-        "amount": { "type": "number", "description": "Amount in JPY" },
+        "amount": { "type": "number", "description": "Amount in CNY/TWD" },
         "type": { "type": "string", "enum": ["income", "expense"], "description": "Type of transaction" },
-        "category": { "type": "string", "description": "Category (e.g., Rent, Food, Membership)" },
+        "category": { "type": "string", "description": "Category (e.g., Food, Stay, Transit)" },
         "description": { "type": "string", "description": "Detailed description" },
         "date": { "type": "string", "format": "date-time", "description": "Transaction date" },
-        "addedBy": { "type": "string", "description": "User ID/Name who added it" }
+        "addedBy": { "type": "string", "description": "User ID/Name who added it" },
+        "payer": { "type": "string", "description": "Who paid the amount" },
+        "splitWith": { "type": "array", "description": "List of people who split this transaction" }
       },
-      "required": ["amount", "type", "category", "date"]
+      "required": ["amount", "type", "category", "date", "payer", "splitWith"]
     }
   },
   "firestore": {

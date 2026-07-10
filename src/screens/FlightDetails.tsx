@@ -1,4 +1,4 @@
-import { Home, ChevronLeft, Plane, Luggage, User, Info, MoreVertical } from 'lucide-react';
+import { Home, ChevronLeft, Plane, Luggage, User, Info, MoreVertical, Train } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
@@ -7,107 +7,113 @@ export function FlightDetails() {
   const navigate = useNavigate();
   const { code } = useParams();
 
-  // Mock data mapping
-  const isPeach = code === 'MM924';
-  const isVZ568 = code === 'VZ568';
-  const isIT289 = code === 'IT289';
-  const isVZ569 = code === 'VZ569';
-  const isIT793 = code === 'IT793';
+  const is9C8686 = code === '9C8686';
+  const is9C8685 = code === '9C8685';
+  const isMU5482 = code === 'MU5482';
+  const isMU5481 = code === 'MU5481';
+  const isG7501 = code === 'G7501';
+  const isG7516 = code === 'G7516';
 
-  let airline = '';
-  let sub = '';
+  let carrierName = '';
+  let subText = '';
   let depTime = '';
   let arrTime = '';
-  let dateText = '5月23日';
-  let daySub = 'SATURDAY, MAY 2026';
-  let fromCode = 'TPE';
-  let fromName = '台北桃園';
-  let toCode = 'OKA';
-  let toName = '沖繩那霸';
-  let duration = '55m';
+  let dateText = '7月28日';
+  let daySub = 'TUESDAY, JULY 2026';
+  let fromCode = 'KHH';
+  let fromName = '高雄小港';
+  let toCode = 'NGB';
+  let toName = '寧波櫟社';
+  let duration = '2h 10m';
+  let isTrain = false;
 
-  if (isPeach) {
-    airline = '樂桃航空 MM924';
-    sub = 'Peach Aviation';
-    depTime = '14:50';
-    arrTime = '17:35';
-  } else if (isVZ568) {
-    airline = '泰國越捷航空 VZ 568';
-    sub = 'Thai Vietjet Air';
-    depTime = '14:55';
-    arrTime = '17:20';
-  } else if (isIT289) {
-    airline = '台灣虎航 IT289';
-    sub = 'Tigerair Taiwan';
-    dateText = '5月27日';
-    daySub = 'WEDNESDAY, MAY 2026';
-    depTime = '14:00';
-    arrTime = '14:55';
-    fromCode = 'OKA';
-    fromName = '沖繩那霸';
+  if (is9C8686) {
+    carrierName = '春秋航空 9C8686';
+    subText = 'Spring Airlines';
+    depTime = '18:35';
+    arrTime = '20:45';
+  } else if (is9C8685) {
+    carrierName = '春秋航空 9C8685';
+    subText = 'Spring Airlines';
+    dateText = '8月1日';
+    daySub = 'SATURDAY, AUGUST 2026';
+    depTime = '15:30';
+    arrTime = '17:40';
+    fromCode = 'NGB';
+    fromName = '寧波櫟社';
     toCode = 'KHH';
-    toName = '高雄';
-    duration = '55m';
-  } else if (isVZ569) {
-    airline = '泰國越捷航空 VZ 569';
-    sub = 'Thai Vietjet Air';
-    dateText = '5月27日';
-    daySub = 'WEDNESDAY, MAY 2026';
-    depTime = '18:20';
-    arrTime = '18:55';
-    fromCode = 'OKA';
-    fromName = '沖繩那霸';
-    toCode = 'TPE';
-    toName = '台北桃園';
-    duration = '35m';
-  } else if (isIT793) {
-    airline = '台灣虎航 IT793';
-    sub = 'Tigerair Taiwan';
-    dateText = '5月28日';
-    daySub = 'THURSDAY, MAY 2026';
-    depTime = '19:30';
-    arrTime = '20:00';
-    fromCode = 'OKA';
-    fromName = '沖繩那霸';
-    toCode = 'RMQ';
-    toName = '台中';
-    duration = '1.5h';
+    toName = '高雄小港';
+    duration = '2h 10m';
+  } else if (isMU5482) {
+    carrierName = '中國東方航空 MU5482';
+    subText = 'China Eastern Airlines';
+    depTime = '12:05';
+    arrTime = '14:15';
+    fromCode = 'HKG';
+    fromName = '香港國際';
+    duration = '2h 10m';
+  } else if (isMU5481) {
+    carrierName = '中國東方航空 MU5481';
+    subText = 'China Eastern Airlines';
+    dateText = '8月1日';
+    daySub = 'SATURDAY, AUGUST 2026';
+    depTime = '15:20';
+    arrTime = '17:35';
+    fromCode = 'NGB';
+    fromName = '寧波櫟社';
+    toCode = 'HKG';
+    toName = '香港國際';
+    duration = '2h 15m';
+  } else if (isG7501) {
+    carrierName = '高鐵動車 G7501';
+    subText = 'China Railway High-speed';
+    depTime = '08:35';
+    arrTime = '10:20';
+    fromCode = 'SHA';
+    fromName = '上海虹橋';
+    toCode = 'NGQ';
+    toName = '寧波高鐵站';
+    duration = '1h 45m';
+    isTrain = true;
+  } else if (isG7516) {
+    carrierName = '高鐵動車 G7516';
+    subText = 'China Railway High-speed';
+    dateText = '8月1日';
+    daySub = 'SATURDAY, AUGUST 2026';
+    depTime = '16:30';
+    arrTime = '18:15';
+    fromCode = 'NGQ';
+    fromName = '寧波高鐵站';
+    toCode = 'SHA';
+    toName = '上海虹橋';
+    duration = '1h 45m';
+    isTrain = true;
+  } else {
+    // Fallback default
+    carrierName = '春秋航空 9C8686';
+    subText = 'Spring Airlines';
+    depTime = '18:35';
+    arrTime = '20:45';
   }
-  
-  let flightData: any[] = [];
-  if (isPeach) {
-    flightData = [{ pnr: 'ZK2ERP', pax: [{ name: 'CHEN CHIUNGHUA' }] }];
-  } else if (isVZ568) {
-    flightData = [
-      { pnr: 'ERED7E', pax: [{ name: 'YUYU CHANG' }, { name: 'HSIAOWEN HSIEH' }, { name: 'CHENKAI CHANG' }] },
-      { pnr: 'JMFW5M', pax: [{ name: 'PI CHUAN CHAN' }, { name: 'HSIAO CHI HSIEH' }, { name: 'TING YEN HSIEH' }] },
-      { pnr: 'KHSBCU', pax: [{ name: 'XUEFENG LENG' }] }
-    ];
-  } else if (isIT289) {
-    flightData = [{ pnr: 'K87T5G', pax: [{ name: 'YUYU CHANG' }, { name: 'CHENKAI CHANG' }, { name: 'HSIAOWEN HSIEH' }] }];
-  } else if (isVZ569) {
-    flightData = [{ pnr: '22MW7F', pax: [{ name: 'CHEN CHIUNGHUA' }] }];
-  } else if (isIT793) {
-    flightData = [{ 
-      pnr: 'M9YR2D', 
-      pax: [
-        { name: 'XUEFENG LENG', bag: '40kg' },
-        { name: 'PI-CHUAN CHAN' },
-        { name: 'HSIAO-CHI HSIEH' },
-        { name: 'TING-YEN HSIEH' }
-      ] 
-    }];
-  }
+
+  // PNR or Ticket Info Mapping
+  let bookingData = {
+    refType: isTrain ? 'TICKET NO. 票務編號' : 'PNR 訂位代號',
+    refValue: isTrain ? 'E293810239' : 'NQ7Z2Y',
+    pax: [
+      { name: '王小明 (WANG XIAOMING)', seat: isTrain ? '03車廂 08A' : '15A', bag: isTrain ? '車內行李架' : '託運 20kg + 手提 7kg' }
+    ]
+  };
 
   return (
-    <div className="pb-44 pt-20 px-6 max-w-md mx-auto space-y-8">
+    <div className="pb-44 pt-24 px-6 max-w-md mx-auto space-y-8">
       <div className="w-full">
         <button 
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/flights')}
           className="flex items-center justify-center gap-3 w-full bg-primary hover:bg-primary-container text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 shadow-md active:scale-[0.98]"
         >
-          <Home size={20} fill="currentColor" />
-          <span className="text-lg">返回首頁</span>
+          <ChevronLeft size={20} />
+          <span className="text-lg">返回交通票務</span>
         </button>
       </div>
 
@@ -119,89 +125,83 @@ export function FlightDetails() {
       <section className="space-y-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center">
-            <Plane className="text-primary" size={20} />
+            {isTrain ? <Train className="text-primary" size={20} /> : <Plane className="text-primary" size={20} />}
           </div>
           <div>
-            <h3 className="font-bold text-lg">{airline}</h3>
-            <p className="text-sm text-on-surface-variant font-medium">{sub}</p>
+            <h3 className="font-bold text-lg text-on-surface">{carrierName}</h3>
+            <p className="text-sm text-on-surface-variant font-medium">{subText}</p>
           </div>
         </div>
 
-        {/* Flight Core Info Card */}
-        <div className="bg-surface-container-low rounded-xl px-6 py-4 flex justify-between items-center">
+        {/* Route Card */}
+        <div className="bg-surface-container-low rounded-2xl px-6 py-5 flex justify-between items-center border border-outline-variant/10">
           <div className="flex flex-col items-center">
-            <div className="flex items-baseline gap-2">
-              <span className="text-xl font-bold text-on-surface">{depTime}</span>
-              <span className="text-xs font-bold text-primary">{fromCode}</span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-2xl font-black text-on-surface">{depTime}</span>
+              <span className="text-[10px] font-bold text-primary">{fromCode}</span>
             </div>
-            <p className="text-[10px] text-on-surface-variant">{fromName}</p>
+            <p className="text-xs text-on-surface-variant mt-1">{fromName}</p>
           </div>
           
           <div className="flex flex-col items-center flex-1 px-4">
-            <div className="w-full h-[1px] bg-outline-variant relative">
+            <div className="w-full h-[1.5px] bg-outline-variant relative">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface-container-low px-2">
-                <Plane className="text-primary rotate-90" size={16} fill="currentColor" />
+                {isTrain ? <Train className="text-primary" size={14} /> : <Plane className="text-primary rotate-90" size={14} fill="currentColor" />}
               </div>
             </div>
-            <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">{duration}</span>
+            <span className="text-[9px] font-bold text-on-surface-variant uppercase tracking-wider mt-1">{duration}</span>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="flex items-baseline gap-2">
-              <span className="text-xl font-bold text-on-surface">{arrTime}</span>
-              <span className="text-xs font-bold text-primary">{toCode}</span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-2xl font-black text-on-surface">{arrTime}</span>
+              <span className="text-[10px] font-bold text-primary">{toCode}</span>
             </div>
-            <p className="text-[10px] text-on-surface-variant">{toName}</p>
+            <p className="text-xs text-on-surface-variant mt-1">{toName}</p>
           </div>
         </div>
 
-        {flightData.map((data, idx) => (
-          <div key={idx} className="bg-surface-container-lowest rounded-xl p-6 shadow-[0_4px_20px_rgba(0,93,144,0.04)] relative overflow-hidden border-l-4 border-secondary-container">
-            <div className="space-y-4">
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="text-[11px] font-bold text-outline uppercase tracking-wider">PNR 訂位代號</p>
-                  <p className="text-lg font-black text-primary tracking-wider">{data.pnr}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-[11px] font-bold text-outline uppercase tracking-wider">Passenger 乘客</p>
-                  <div className="space-y-1">
-                    {data.pax.map((p: any) => (
-                      <div key={p.name} className="flex flex-col items-end">
-                        <p className="font-bold text-on-surface text-sm">{p.name}</p>
-                        {p.bag && (
-                          <div className="flex items-center gap-1 text-secondary text-[10px] font-bold">
-                            <Luggage size={12} fill="currentColor" />
-                            <span>{p.bag}</span>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+        {/* Ticket Details */}
+        <div className="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/10 relative overflow-hidden border-l-4 border-primary">
+          <div className="space-y-4">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-[10px] font-bold text-outline uppercase tracking-wider">{bookingData.refType}</p>
+                <p className="text-xl font-black text-primary tracking-wider">{bookingData.refValue}</p>
               </div>
-              
-              <div className="bg-surface-container-low rounded-lg p-3 flex items-start gap-3">
-                <Luggage className="text-secondary mt-0.5" size={16} />
+              <div className="text-right">
+                <p className="text-[10px] font-bold text-outline uppercase tracking-wider">Passenger 乘車人</p>
+                {bookingData.pax.map((p, idx) => (
+                  <div key={idx} className="mt-1">
+                    <p className="font-bold text-on-surface text-sm">{p.name}</p>
+                    <p className="text-[10px] font-bold text-secondary-container bg-secondary-container/10 px-1.5 py-0.5 rounded inline-block mt-1">座位: {p.seat}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="bg-surface-container-low rounded-xl p-4 flex items-start gap-3">
+              <Luggage className="text-primary shrink-0 mt-0.5" size={16} />
+              <div className="space-y-1">
+                <p className="text-xs text-on-surface font-bold">行李與攜帶品須知：</p>
                 <p className="text-xs text-on-surface-variant leading-relaxed">
-                  <span className="font-bold text-on-surface">行李事項：</span>
-                  {isPeach ? '手提 2 件合計 7kg，無免費託運。' : 
-                   (isVZ568 || isVZ569) ? '每位乘客享手提行李 7kg，無免費託運。' : 
-                   '請確認您的機票包含之托運行李額度。'}
+                  {isTrain ? '高鐵可攜帶大件行李置於車廂接駁處行李架，總重量不超過 20 公斤。' : 
+                   (isMU5482 || isMU5481) ? '東方航空票價包含 1 件 23kg 免費託運行李及 1 件 7kg 手提行李。' : 
+                   '春秋航空屬於低成本航空，請注意手提行李 7kg 尺寸限制，超重需在官網提前加購額度。'}
                 </p>
               </div>
             </div>
           </div>
-        ))}
+        </div>
 
-        {!isPeach && !isIT289 && !isIT793 && (
-          <div className="p-4 rounded-xl border border-dashed border-outline-variant flex items-start gap-3 bg-surface/50">
-            <Info className="text-tertiary shrink-0" size={18} />
-            <p className="text-xs text-on-surface-variant font-medium leading-relaxed">
-              提醒：請務必再次確認行李尺寸符合航空公司最新規範，避免現場超額收費。
-            </p>
-          </div>
-        )}
+        {/* Info Alerts */}
+        <div className="p-4 rounded-xl border border-dashed border-outline-variant flex items-start gap-3 bg-surface/50">
+          <Info className="text-amber-600 shrink-0 mt-0.5" size={16} />
+          <p className="text-xs text-on-surface-variant font-medium leading-relaxed">
+             {isTrain ? '請憑台胞證、護照等購票身份證明原件直接刷證件過閘進站。大廳大螢幕將在開車前 15 分鐘顯示檢票口，開車前 3 分鐘停止檢票。' : 
+              '搭乘飛機需在起飛前 45 分鐘完成行李託運與值機，暑假與出行高峰期間過海關及安全檢查排隊時間較長，請提早至航站樓。'}
+          </p>
+        </div>
       </section>
     </div>
   );

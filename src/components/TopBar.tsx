@@ -30,15 +30,15 @@ export function TopBar() {
 
   const getTitle = (path: string) => {
     if (path.startsWith('/itinerary')) {
-      const dates = ['5/23 第一天', '5/24 第二天', '5/25 第三天', '5/26 第四天', '5/27 第五天', '5/28 第六天'];
+      const dates = ['7/28 第一天', '7/29 第二天', '7/30 第三天', '7/31 第四天', '8/1 第五天'];
       return (dates[dayIndex] || '行程') + ' 行程';
     }
-    if (path.startsWith('/car-rental')) return '租車資訊';
-    if (path.startsWith('/parking')) return '停車詳情';
-    if (path.startsWith('/airport-info')) return '機場接送';
-    if (path.startsWith('/accommodation')) return '住宿行程表';
-    if (path.startsWith('/flights')) return '機票詳情';
-    if (path.startsWith('/budget')) return '公積金預算';
+    if (path.startsWith('/car-rental')) return '交通指引';
+    if (path.startsWith('/parking')) return '實用小貼士';
+    if (path.startsWith('/airport-info')) return '機場與高鐵';
+    if (path.startsWith('/accommodation')) return '住宿推薦';
+    if (path.startsWith('/flights')) return '交通票務';
+    if (path.startsWith('/budget')) return '旅行記帳';
     return '詳情';
   };
 
@@ -55,7 +55,7 @@ export function TopBar() {
           </button>
         )}
         <h1 className="font-extrabold tracking-tight text-lg text-on-surface">
-          {isHome ? '沖繩之旅' : getTitle(location.pathname)}
+          {isHome ? '寧波之旅' : getTitle(location.pathname)}
         </h1>
       </div>
       

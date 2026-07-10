@@ -1,4 +1,4 @@
-import { Home, ChevronLeft, ChevronRight, PlaneTakeoff, PlaneLanding, Lightbulb } from 'lucide-react';
+import { Home, ChevronLeft, ChevronRight, PlaneTakeoff, PlaneLanding, Lightbulb, Train } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
@@ -6,28 +6,19 @@ import { cn } from '@/lib/utils';
 export function FlightOverview() {
   const navigate = useNavigate();
 
-  const flightGroups = [
+  const transitGroups = [
     {
-      date: 'May 23',
-      day: '(Sat) - Outbound 去程',
-      flights: [
-        { airline: 'Peach 樂桃航空', code: 'MM924', from: 'TPE 台北', to: 'OKA 沖繩', dep: '14:50', arr: '17:35', type: 'dep' },
-        { airline: 'Thai Vietjet 泰越捷', code: 'VZ568', from: 'TPE 台北', to: 'OKA 沖繩', dep: '14:55', arr: '17:20', type: 'dep' }
+      date: '7月28日',
+      day: '(Tue) - 去程 Outbound',
+      transits: [
+        { carrier: '春秋航空 Spring Airlines', code: '9C8686', from: 'KHH 高雄小港', to: 'NGB 寧波櫟社', dep: '18:35', arr: '20:45', type: 'flight' }
       ]
     },
     {
-      date: 'May 27',
-      day: '(Wed) - Inbound 回程',
-      flights: [
-        { airline: 'Tigerair 台灣虎航', code: 'IT289', from: 'OKA 沖繩', to: 'KHH 高雄', dep: '14:00', arr: '14:55', type: 'arr' },
-        { airline: 'Thai Vietjet 泰越捷', code: 'VZ569', from: 'OKA 沖繩', to: 'TPE 台北', dep: '18:20', arr: '18:55', type: 'arr' }
-      ]
-    },
-    {
-      date: 'May 28',
-      day: '(Thu) - Inbound 回程',
-      flights: [
-        { airline: 'Tigerair 台灣虎航', code: 'IT793', from: 'OKA 沖繩', to: 'RMQ 台中', dep: '19:30', arr: '20:00', type: 'arr' }
+      date: '8月1日',
+      day: '(Sat) - 回程 Inbound',
+      transits: [
+        { carrier: '春秋航空 Spring Airlines', code: '9C8685', from: 'NGB 寧波櫟社', to: 'KHH 高雄小港', dep: '15:30', arr: '17:40', type: 'flight' }
       ]
     }
   ];
@@ -40,35 +31,38 @@ export function FlightOverview() {
           className="w-full md:w-auto flex items-center justify-center gap-3 bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg active:scale-95 transition-transform"
         >
           <Home size={20} fill="currentColor" />
-          返回首頁
+          返回首頁 Dashboard
         </button>
       </div>
 
       <div className="space-y-12">
-        {flightGroups.map((group, idx) => (
+        {transitGroups.map((group, idx) => (
           <section key={idx}>
             <div className="flex items-baseline gap-4 mb-6">
               <h2 className="text-4xl font-extrabold tracking-tighter text-on-surface">{group.date}</h2>
-              <span className="text-on-surface-variant font-medium">{group.day}</span>
+              <span className="text-on-surface-variant font-medium text-sm">{group.day}</span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {group.flights.map((flight, fIdx) => (
+              {group.transits.map((item, fIdx) => (
                 <div 
                   key={fIdx}
-                  onClick={() => navigate(`/flights/${flight.code}`)}
-                  className="relative group cursor-pointer bg-surface-container-lowest p-6 rounded-lg shadow-sm border-l-4 border-secondary-container hover:shadow-md transition-shadow"
+                  onClick={() => navigate(`/flights/${item.code}`)}
+                  className="relative group cursor-pointer bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-l-4 border-primary hover:shadow-md transition-shadow border border-outline-variant/10"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <p className="text-primary font-bold text-sm">{flight.airline} {flight.code}</p>
-                      <div className="flex items-center gap-3 mt-2">
-                        <span className="text-2xl font-bold">{flight.dep}</span>
-                        {flight.type === 'dep' ? <PlaneTakeoff className="text-outline-variant" size={20} /> : <PlaneLanding className="text-outline-variant" size={20} />}
-                        <span className="text-2xl font-bold">{flight.arr}</span>
+                      <p className="text-primary font-bold text-sm flex items-center gap-1.5">
+                        {item.type === 'flight' ? <PlaneTakeoff size={14} /> : <Train size={14} />}
+                        {item.carrier} {item.code}
+                      </p>
+                      <div className="flex items-center gap-3 mt-3">
+                        <span className="text-2xl font-bold text-on-surface">{item.dep}</span>
+                        <span className="text-outline-variant text-sm">➜</span>
+                        <span className="text-2xl font-bold text-on-surface">{item.arr}</span>
                       </div>
-                      <p className="text-xs text-on-surface-variant mt-1">{flight.from} → {flight.to}</p>
+                      <p className="text-xs text-on-surface-variant font-medium mt-1.5">{item.from} → {item.to}</p>
                     </div>
-                    <ChevronRight className="text-primary group-hover:translate-x-1 transition-transform" size={20} />
+                    <ChevronRight className="text-primary group-hover:translate-x-1 transition-transform mt-1" size={20} />
                   </div>
                 </div>
               ))}
@@ -77,22 +71,28 @@ export function FlightOverview() {
         ))}
       </div>
 
-      <section className="mt-16 bg-surface-container-low rounded-xl p-8">
+      <section className="mt-16 bg-surface-container-low rounded-2xl p-8 border border-outline-variant/10">
         <div className="flex items-center gap-3 mb-6">
-          <Lightbulb className="text-tertiary fill-tertiary" size={20} />
-          <h3 className="text-xl font-bold text-on-surface">旅遊提示 Travel Tips</h3>
+          <Lightbulb className="text-amber-500 fill-amber-500/20" size={22} />
+          <h3 className="text-xl font-bold text-on-surface">交通與出入境指南</h3>
         </div>
         <ul className="space-y-4">
           <li className="flex gap-4 items-start">
-            <div className="w-1.5 h-1.5 rounded-full bg-tertiary mt-2 shrink-0"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0"></div>
             <p className="text-on-surface-variant leading-relaxed text-sm">
-              搭乘 <span className="font-bold text-on-surface">Thai Vietjet (泰越捷)</span> 的旅客，請務必於起飛前 <span className="font-bold text-tertiary">3 小時</span> 到達機場辦理登機手續。
+              <span className="font-bold text-on-surface">出入境證件：</span>港澳台旅客請務必確認 <span className="font-bold text-primary">台胞證 / 回鄉證</span> 在有效期限內；外籍遊客請持有效護照和中國簽證（或適用免簽政策）。
             </p>
           </li>
           <li className="flex gap-4 items-start">
-            <div className="w-1.5 h-1.5 rounded-full bg-tertiary mt-2 shrink-0"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0"></div>
             <p className="text-on-surface-variant leading-relaxed text-sm">
-              請確認您的護照效期在回程當日仍有 <span className="font-bold text-on-surface">6 個月以上</span> 的有效期。
+              <span className="font-bold text-on-surface">高鐵實名制：</span>高鐵動車票全部為電子客票。出站、進站時直接刷預訂時填寫的 <span className="font-bold text-primary">身份證件原件</span>（如台胞證、身份證、回鄉證），無需換取紙質票。
+            </p>
+          </li>
+          <li className="flex gap-4 items-start">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0"></div>
+            <p className="text-on-surface-variant leading-relaxed text-sm">
+              <span className="font-bold text-on-surface">航班值機時間：</span>國際航班建議提前 <span className="font-bold text-primary">2.5 - 3 小時</span> 到達機場辦理值機；高鐵提早 <span className="font-bold text-primary">45 分鐘</span> 到達車站候車即可。
             </p>
           </li>
         </ul>

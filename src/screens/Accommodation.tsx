@@ -1,4 +1,4 @@
-import { Home, ChevronLeft, Map as MapIcon, Calendar, Clock, Globe, Phone } from 'lucide-react';
+import { Home, ChevronLeft, MapPin, Phone, Star, Coffee, Wifi, ShieldAlert, Navigation } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
@@ -6,170 +6,196 @@ import { cn } from '@/lib/utils';
 export function Accommodation() {
   const navigate = useNavigate();
 
-  const stays = [
-    {
-      date: '5/23 (SAT)',
-      name: '那霸小祿站前 Y\'s Inn',
-      subName: 'Y\'s Inn Naha Oroku Ekimae',
-      checkIn: '15:00',
-      room: '標準雙床房 x 4',
-      meals: '不含餐食',
-      platform: 'Booking.com',
-      address: '沖繩縣那霸市赤嶺 2-1-5',
-      phone: '098-851-8107',
-      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Y\'s+Inn+Naha+Oroku+Ekimae'
-    },
-    {
-      date: '5/24 (SUN)',
-      name: '沖繩殘波岬美爵度假酒店',
-      subName: 'Grand Mercure Zanpa Cape',
-      checkIn: '15:00',
-      room: '行政雙床 x 1, 高級三人間 x 2',
-      meals: 'All-inclusive 全包式',
-      mealTag: true,
-      platform: 'Ikyu.com 一休',
-      address: '沖繩縣中頭郡讀谷村字宇座 1575',
-      phone: '098-958-5000',
-      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Grand+Mercure+Okinawa+Zanpa+Cape+Resort'
-    },
-    {
-      date: '5/25 (MON)',
-      name: '沖繩殘波岬 (續住)',
-      subName: 'Stay Extension',
-      type: '續住',
-      room: '行政雙床房 x 3',
-      meals: '純住房 (Room Only)',
-      platform: 'Ikyu.com 一休',
-      address: '沖繩縣中頭郡讀谷村字宇座 1575',
-      phone: '098-958-5000',
-      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Grand+Mercure+Okinawa+Zanpa+Cape+Resort',
-      isExtension: true
-    },
-    {
-      date: '5/26 (TUE)',
-      name: '南城市水晶別墅',
-      subName: 'Crystal Villa Nanjo',
-      checkIn: '15:00',
-      room: '整棟出租 (8人包棟)',
-      meals: '不含餐食',
-      platform: 'Booking.com',
-      address: '沖繩縣南城市玉城親慶原 296',
-      phone: '098-949-7333',
-      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Crystal+Villa+Nanjo'
-    },
-    {
-      date: '5/27 (WED)',
-      name: '古宇利島 Coldio 度假公寓',
-      subName: 'Coldio Smart Resort Kouri Island',
-      checkIn: '15:00',
-      room: '公寓套房 x 1',
-      meals: '不含餐食',
-      platform: 'Booking.com',
-      address: '沖繩縣國頭郡今歸仁村古宇利 191',
-      phone: '098-989-1316',
-      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Coldio+Smart+Resort+Kouri+Island'
-    }
-  ];
-
   return (
-    <div className="pt-20 px-4 pb-44 space-y-6 max-w-md mx-auto">
+    <div className="pt-24 px-6 pb-44 max-w-md mx-auto space-y-8">
       <button 
         onClick={() => navigate('/')}
-        className="w-full py-5 px-6 rounded-xl bg-primary text-white flex items-center justify-center gap-3 shadow-lg shadow-primary/20 active:scale-[0.98] transition-transform"
+        className="w-full py-5 bg-primary/5 text-primary border border-primary/20 rounded-xl font-bold text-lg shadow-sm flex items-center justify-center gap-2 active:scale-95 transition-transform"
       >
         <ChevronLeft size={20} />
-        <span className="font-bold tracking-wide">返回首頁 Return to Home</span>
+        返回首頁 Dashboard
       </button>
 
-      <div className="py-2">
-        <p className="text-on-surface-variant font-medium tracking-[0.2em] uppercase text-[10px]">Travel Timeline</p>
-        <h2 className="text-3xl font-extrabold tracking-tighter text-on-surface mt-1">住宿行程表</h2>
-        <p className="text-primary font-semibold">5/23 (六) — 5/27 (三)</p>
-      </div>
 
-      <div className="space-y-4">
-        {stays.map((stay, i) => (
-          <div 
-            key={i} 
-            className={cn(
-              "relative bg-surface-container-lowest p-5 rounded-xl shadow-sm border-l-4",
-              stay.isExtension ? "border-outline-variant bg-surface-container-low/50" : "border-secondary-container"
-            )}
-          >
-            <div className="flex justify-between items-start mb-3">
-              <div>
-                <span className={cn(
-                  "text-xs font-bold tracking-widest uppercase px-2 py-1 rounded-full",
-                  stay.isExtension ? "bg-surface-container-high text-on-surface-variant" : "bg-primary-fixed text-primary"
-                )}>
-                  {stay.date}
-                </span>
-                <h3 className="text-xl font-extrabold text-on-surface mt-2">{stay.name}</h3>
-                <p className={cn("text-on-surface-variant text-sm font-medium", stay.isExtension && "italic")}>{stay.subName}</p>
-              </div>
-              <div className="text-right">
-                <span className="text-[10px] font-bold text-on-surface-variant block uppercase">
-                  {stay.type || 'CHECK-IN'}
-                </span>
-                <span className={cn("text-lg font-black", stay.isExtension ? "text-on-surface-variant" : "text-secondary")}>
-                  {stay.checkIn || stay.type}
-                </span>
-              </div>
-            </div>
-            
-            <div className={cn("grid grid-cols-1 gap-y-3 py-3 border-t", stay.isExtension ? "border-outline-variant/30" : "border-outline-variant/15")}>
-              <DetailRow label="Address" value={stay.address} isAddress />
-              <DetailRow label="Phone" value={stay.phone} isPhone />
-              <DetailRow label="Room Type" value={stay.room} />
-              <DetailRow 
-                label="Meals" 
-                value={stay.meals} 
-                isTag={stay.mealTag}
-              />
-              <DetailRow label="Platform" value={stay.platform} isPlatform />
-            </div>
 
-            <a 
-              href={stay.mapUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className={cn(
-                "mt-2 w-full py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-colors",
-                stay.isExtension ? "bg-surface-container-high/50 text-on-surface-variant" : "bg-surface-container-low text-secondary hover:bg-secondary-fixed"
-              )}
-            >
-              <MapIcon size={14} />
-              在 Google Maps 查看
-            </a>
+      {/* Accommodation Card 1 */}
+      <section className="space-y-4">
+        <div className="flex justify-between items-center px-1">
+          <span className="text-xs font-bold text-outline uppercase tracking-wider">Day 1 & Day 2 入住（老城中心）</span>
+          <span className="text-xs font-semibold text-primary px-2.5 py-1 bg-primary/10 rounded-full">中式府邸美學</span>
+        </div>
+
+        <div className="bg-surface-container-lowest rounded-3xl p-6 border border-outline-variant/10 shadow-md space-y-4 relative overflow-hidden">
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+          
+          <div className="space-y-1">
+            <div className="flex gap-1 items-center text-amber-500">
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <span className="text-xs font-bold text-on-surface-variant ml-1">待入住 | 2晚共 ¥953.70</span>
+            </div>
+            <h3 className="text-2xl font-black text-on-surface leading-tight">寧波天一城隍廟漫心府</h3>
+            <p className="text-xs font-bold text-outline uppercase tracking-wider">Ningbo Tianyi City God Temple Manxin Mansion</p>
           </div>
-        ))}
-      </div>
+
+          <p className="text-xs text-on-surface-variant leading-relaxed">
+            坐落於海曙區核心地段，緊鄰城隍廟與天一廣場商圈。漫心府巧妙融合了江南復古宅邸意境與現代國潮時尚設計，極具中式庭院美學與精緻格調。入住其「高級雙床房」，出行與探索老城美食極其便利，是體驗甬城繁華與人文底蘊的最佳起點。
+          </p>
+
+          <div className="grid grid-cols-3 gap-2.5 pt-2">
+            <FeatureIcon icon={Wifi} text="高級雙床房" />
+            <FeatureIcon icon={Coffee} text="城隍廟商圈" />
+            <FeatureIcon icon={MapPin} text="老城核心" />
+          </div>
+
+          <div className="pt-4 border-t border-surface-variant/30 space-y-2">
+            <div className="flex items-start gap-2 text-xs text-on-surface-variant">
+              <MapPin size={14} className="shrink-0 mt-0.5" />
+              <span>寧波市海曙區（天一廣場/城隍廟地鐵站旁）</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-on-surface-variant">
+              <Phone size={14} />
+              <span>0574-87366666</span>
+            </div>
+          </div>
+
+          <button 
+            onClick={() => window.open('https://uri.amap.com/marker?position=121.551221,29.871145&name=宁波天一城隍庙漫心府', '_blank')}
+            className="flex items-center justify-center gap-2 w-full py-3.5 bg-primary text-white rounded-2xl font-bold transition-transform active:scale-95 shadow-md"
+          >
+            <Navigation size={18} />
+            高德地圖導航
+          </button>
+        </div>
+      </section>
+
+      {/* Accommodation Card 2 */}
+      <section className="space-y-4">
+        <div className="flex justify-between items-center px-1">
+          <span className="text-xs font-bold text-outline uppercase tracking-wider">Day 3 入住（東錢湖度假區）</span>
+          <span className="text-xs font-semibold text-[#00677d] px-2.5 py-1 bg-[#00677d]/10 rounded-full">水鄉文藝避世</span>
+        </div>
+
+        <div className="bg-surface-container-lowest rounded-3xl p-6 border border-outline-variant/10 shadow-md space-y-4 relative overflow-hidden">
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#00677d]"></div>
+          
+          <div className="space-y-1">
+            <div className="flex gap-1 items-center text-amber-500">
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <span className="text-xs font-bold text-on-surface-variant ml-1">待入住 | 1晚 ¥399.50</span>
+            </div>
+            <h3 className="text-2xl font-black text-[#00677d] leading-tight">寧波花間堂·韓嶺</h3>
+            <p className="text-xs font-bold text-outline uppercase tracking-wider">Blossom House Ningbo Hanling</p>
+          </div>
+
+          <p className="text-xs text-on-surface-variant leading-relaxed">
+            坐落於歷史悠久的東錢湖韓嶺老街。花間堂將獨特的江南古村落瓦舍與時尚精品民宿設計完美契合。入住其「閭巷人家雙床房」，推窗即能欣賞小橋流水、老竹搖曳，極具文藝與悠閒氣息。漫步即可達韓嶺美術館，是夜宿東錢湖的首選。
+          </p>
+
+          <div className="grid grid-cols-3 gap-2.5 pt-2">
+            <FeatureIcon icon={Wifi} text="閭巷人家雙床" />
+            <FeatureIcon icon={Coffee} text="韓嶺老街內" />
+            <FeatureIcon icon={MapPin} text="東錢湖畔" />
+          </div>
+
+          <div className="pt-4 border-t border-surface-variant/30 space-y-2">
+            <div className="flex items-start gap-2 text-xs text-on-surface-variant">
+              <MapPin size={14} className="shrink-0 mt-0.5" />
+              <span>寧波市東錢湖旅遊度假區韓嶺老街內</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-on-surface-variant">
+              <Phone size={14} />
+              <span>0574-88301111</span>
+            </div>
+          </div>
+
+          <button 
+            onClick={() => window.open('https://uri.amap.com/marker?position=121.642918,29.774581&name=宁波花间堂·韩岭', '_blank')}
+            className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#00677d] text-white rounded-2xl font-bold transition-transform active:scale-95 shadow-md"
+          >
+            <Navigation size={18} />
+            高德地圖導航
+          </button>
+        </div>
+      </section>
+
+      {/* Accommodation Card 3 */}
+      <section className="space-y-4">
+        <div className="flex justify-between items-center px-1">
+          <span className="text-xs font-bold text-outline uppercase tracking-wider">Day 4 入住（東部新城）</span>
+          <span className="text-xs font-semibold text-[#8a2be2] px-2.5 py-1 bg-[#8a2be2]/10 rounded-full">奢華航海風情</span>
+        </div>
+
+        <div className="bg-surface-container-lowest rounded-3xl p-6 border border-outline-variant/10 shadow-md space-y-4 relative overflow-hidden">
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#8a2be2]"></div>
+          
+          <div className="space-y-1">
+            <div className="flex gap-1 items-center text-amber-500">
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <Star size={16} fill="currentColor" />
+              <span className="text-xs font-bold text-on-surface-variant ml-1">IHG積分免費兌換 | 確認碼: 24347452</span>
+            </div>
+            <h3 className="text-2xl font-black text-[#8a2be2] leading-tight">寧波英迪格酒店</h3>
+            <p className="text-xs font-bold text-outline uppercase tracking-wider">Ningbo Hotel Indigo (IHG)</p>
+          </div>
+
+          <p className="text-xs text-on-surface-variant leading-relaxed">
+            隸屬洲際酒店集團（IHG），坐落於鄞州區金融中心地段。酒店以寧波傳奇的「航海歷史與甬商傳奇」為設計靈感，完美交織現代前衛科技感與鄰里人文藝術。客房環境寬敞奢華，配備極佳，是為最後一晚旅途提供極致舒適修整的鄰里精品酒店。
+          </p>
+
+          <div className="grid grid-cols-3 gap-2.5 pt-2">
+            <FeatureIcon icon={Wifi} text="2 Double Standard" />
+            <FeatureIcon icon={Coffee} text="積分免費兌" />
+            <FeatureIcon icon={MapPin} text="鄞州新城" />
+          </div>
+
+          <div className="pt-4 border-t border-surface-variant/30 space-y-2">
+            <div className="flex items-start gap-2 text-xs text-on-surface-variant">
+              <MapPin size={14} className="shrink-0 mt-0.5" />
+              <span>寧波市鄞州區寧東路 545 號</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-on-surface-variant">
+              <Phone size={14} />
+              <span>0574-89089999</span>
+            </div>
+          </div>
+
+          <button 
+            onClick={() => window.open('https://uri.amap.com/marker?position=121.618641,29.863112&name=宁波英迪格酒店', '_blank')}
+            className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#8a2be2] text-white rounded-2xl font-bold transition-transform active:scale-95 shadow-md"
+          >
+            <Navigation size={18} />
+            高德地圖導航
+          </button>
+        </div>
+      </section>
+
+      {/* Booking Tips */}
+      <section className="bg-amber-50 p-5 rounded-2xl border border-amber-200 flex items-start gap-3">
+        <ShieldAlert className="text-amber-600 shrink-0 mt-0.5" size={18} />
+        <p className="text-xs text-amber-900 leading-relaxed font-semibold">
+          <span className="font-bold">訂房溫馨提示：</span>暑假及出行高峰期間屬於寧波旅遊旺季，以上精選熱門酒店房源極其搶手。建議務必提前 2-4 週完成預訂，以確保出行順利並獲得更優的價格。
+        </p>
+      </section>
     </div>
   );
 }
 
-function DetailRow({ label, value, isTag, isPlatform, isAddress, isPhone }: any) {
+function FeatureIcon({ icon: Icon, text }: { icon: any; text: string }) {
   return (
-    <div className={cn("flex justify-between items-start", !isAddress && "items-center")}>
-      <p className="text-[10px] text-on-surface-variant font-bold uppercase mt-0.5">{label}</p>
-      <div className="text-right max-w-[70%]">
-        {isTag ? (
-          <span className="text-xs font-bold bg-tertiary/10 text-tertiary px-2 py-0.5 rounded-md">{value}</span>
-        ) : isPhone ? (
-          <p className="text-sm font-bold text-secondary flex items-center justify-end gap-1">
-            <Phone size={10} />
-            {value}
-          </p>
-        ) : (
-          <p className={cn(
-            "text-sm font-semibold leading-tight", 
-            isPlatform && "text-primary-container font-bold",
-            isAddress && "text-[11px] text-on-surface-variant"
-          )}>
-            {value}
-          </p>
-        )}
-      </div>
+    <div className="bg-surface-container-high/50 rounded-xl p-2.5 flex flex-col items-center justify-center text-center gap-1 border border-outline-variant/10">
+      <Icon className="text-primary" size={16} />
+      <span className="text-[10px] font-bold text-on-surface-variant">{text}</span>
     </div>
   );
 }

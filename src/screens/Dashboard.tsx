@@ -1,34 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Sun, Cloud, CloudRain, CloudSun, CloudLightning, Bus, Plane, Hotel, Car, Calendar, Wallet, ChevronRight, ExternalLink } from 'lucide-react';
+import { Sun, Cloud, CloudRain, CloudSun, CloudLightning, Plane, Hotel, Train, Calendar, ChevronRight, ExternalLink, Wallet } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
-import { db } from '../lib/firebase';
-import { collection, onSnapshot, query } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
 
 export function Dashboard() {
   const navigate = useNavigate();
-  const [balance, setBalance] = useState(0);
   const [weather, setWeather] = useState<{ temp: number; description: string; icon: any } | null>(null);
 
   useEffect(() => {
-    // Fetch transactions
-    const q = query(collection(db, 'transactions'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const transactions = snapshot.docs.map(doc => doc.data());
-      const totalIncome = transactions
-        .filter((t: any) => t.type === 'income')
-        .reduce((acc, curr: any) => acc + curr.amount, 0);
-      const totalExpense = transactions
-        .filter((t: any) => t.type === 'expense')
-        .reduce((acc, curr: any) => acc + curr.amount, 0);
-      setBalance(totalIncome - totalExpense);
-    });
-
-    // Fetch Weather (Naha, Okinawa: 26.2124, 127.6809)
+    // Fetch Weather (Ningbo, Zhejiang: 29.8683, 121.5440)
     const fetchWeather = async () => {
       try {
-        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=26.2124&longitude=127.6809&current=temperature_2m,weather_code');
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=29.8683&longitude=121.5440&current=temperature_2m,weather_code');
         const data = await res.json();
         
         const code = data.current.weather_code;
@@ -53,7 +37,6 @@ export function Dashboard() {
     };
 
     fetchWeather();
-    return () => unsubscribe();
   }, []);
 
   const WeatherIcon = weather?.icon || Sun;
@@ -61,70 +44,49 @@ export function Dashboard() {
   return (
     <div className="mt-20 px-4 pb-44">
       <section className="mb-8 px-2">
-        <h2 className="text-on-surface text-3xl font-extrabold tracking-tight mb-2">沖繩，我們來啦</h2>
+        <h2 className="text-on-surface text-3xl font-extrabold tracking-tight mb-2">寧波，我們來啦</h2>
         <div className="flex items-center gap-2 text-on-surface-variant font-medium">
           <Calendar size={14} />
-          <span className="text-sm">2026/05/23 - 05/28</span>
+          <span className="text-sm">2026/07/28 - 08/01</span>
         </div>
       </section>
 
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 gap-4 mb-6">
         {/* Weather Card */}
         <a 
-          href="https://www.accuweather.com/zh/jp/naha-shi/225881/weather-forecast/225881" 
+          href="https://www.accuweather.com/zh/cn/ningbo/105342/weather-forecast/105342" 
           target="_blank" 
           rel="noopener noreferrer"
           className="bg-surface-container-lowest p-5 rounded-2xl flex flex-col justify-between border border-outline-variant/10 shadow-sm transition-transform active:scale-95"
         >
           <div className="flex justify-between items-start mb-4">
-            <span className="text-on-surface-variant font-semibold text-xs uppercase tracking-wider">那霸天氣</span>
+            <span className="text-on-surface-variant font-semibold text-xs uppercase tracking-wider">寧波天氣</span>
             <WeatherIcon className="text-secondary fill-secondary/20" size={20} />
           </div>
           <div>
             <div className="text-3xl font-bold text-on-surface">{weather ? `${weather.temp}°C` : '--°C'}</div>
-            <div className="text-[11px] text-on-surface-variant font-medium">沖繩 {weather?.description || '載入中...'}</div>
+            <div className="text-[11px] text-on-surface-variant font-medium">寧波 {weather?.description || '載入中...'}</div>
           </div>
         </a>
-
-        {/* Fund Balance Card */}
-        <button 
-          onClick={() => navigate('/budget')}
-          className="bg-surface-container-lowest p-5 rounded-2xl flex flex-col justify-between border border-outline-variant/10 shadow-sm transition-transform active:scale-95 text-left"
-        >
-          <div className="flex justify-between items-start mb-4">
-            <span className="text-on-surface-variant font-semibold text-xs uppercase tracking-wider">公積金餘額</span>
-            <Wallet className="text-primary" size={20} />
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-on-surface">¥ {balance.toLocaleString()}</div>
-            <div className="text-[11px] text-on-surface-variant font-medium">即時公積金餘額</div>
-          </div>
-        </button>
       </div>
 
       <div className="grid grid-cols-1 gap-4">
         <NavButton 
-          icon={Bus} 
-          label="機場接送/停車" 
-          color="bg-[#0e7490]" 
-          onClick={() => navigate('/airport-info')} 
-        />
-        <NavButton 
           icon={Plane} 
-          label="機票詳情" 
+          label="交通票務" 
           color="bg-[#0077b6]" 
           onClick={() => navigate('/flights')} 
           extra={<div className="flex items-center gap-1.5 opacity-70"><span className="text-[10px] font-bold text-white uppercase tracking-widest">Go to</span><ExternalLink size={16} /></div>}
         />
         <NavButton 
           icon={Hotel} 
-          label="住宿資料" 
+          label="住宿推薦" 
           color="bg-[#00677d]" 
           onClick={() => navigate('/accommodation')} 
-        />
+          />
         <NavButton 
-          icon={Car} 
-          label="租車資訊" 
+          icon={Train} 
+          label="寧波地鐵指引" 
           color="bg-[#4da3ff]" 
           onClick={() => navigate('/car-rental')} 
         />
@@ -136,7 +98,7 @@ export function Dashboard() {
         />
         <NavButton 
           icon={Wallet} 
-          label="公積金預算" 
+          label="旅行記帳與分攤" 
           color="bg-[#9d370c]" 
           onClick={() => navigate('/budget')} 
         />

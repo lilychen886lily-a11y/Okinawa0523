@@ -12,18 +12,21 @@ service cloud.firestore {
     match /transactions/{transactionId} {
       allow read: if true; 
       allow create: if isValidTransaction(request.resource.data);
+      allow update: if isValidTransaction(request.resource.data);
       allow delete: if true; // Enabling client-side deletion as requested
     }
 
     function isValidTransaction(data) {
-      return data.keys().hasAll(['amount', 'type', 'category', 'date', 'description', 'addedBy'])
-        && data.keys().size() == 6
+      return data.keys().hasAll(['amount', 'type', 'category', 'date', 'description', 'addedBy', 'payer', 'splitWith'])
+        && data.keys().size() == 8
         && data.amount is number
         && (data.type == 'income' || data.type == 'expense')
         && data.category is string && data.category.size() <= 100
         && data.description is string && data.description.size() <= 500
         && data.date is string && data.date.size() <= 50
-        && data.addedBy is string && data.addedBy.size() <= 100;
+        && data.addedBy is string && data.addedBy.size() <= 100
+        && data.payer is string && data.payer.size() <= 100
+        && data.splitWith is list && data.splitWith.size() <= 3;
     }
   }
 }

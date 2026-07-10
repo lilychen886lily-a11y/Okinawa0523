@@ -1,4 +1,4 @@
-import { CalendarDays, ChevronRight, Navigation, Clock, MapPin, Phone, Car } from 'lucide-react';
+import { CalendarDays, ChevronRight, Navigation, Clock, MapPin, Phone, Info, CheckSquare, Heart, Lightbulb } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
@@ -7,100 +7,92 @@ export function ParkingDetails() {
   const navigate = useNavigate();
 
   return (
-    <div className="pb-44 pt-20 px-4 space-y-6 max-w-md mx-auto">
+    <div className="pb-44 pt-24 px-6 space-y-6 max-w-md mx-auto">
       <button 
         onClick={() => navigate('/itinerary')}
-        className="w-full py-4 px-6 bg-surface-container-lowest rounded-xl flex items-center justify-between group active:scale-95 transition-all duration-200 shadow-sm"
+        className="w-full py-4 px-6 bg-surface-container-lowest rounded-2xl flex items-center justify-between group active:scale-95 transition-all duration-200 shadow-sm border border-outline-variant/10"
       >
         <div className="flex items-center gap-3">
           <CalendarDays className="text-primary" size={20} />
-          <span className="font-bold text-on-surface tracking-tight">返回行程 (Back to Itinerary)</span>
+          <span className="font-bold text-on-surface tracking-tight">返回每日行程 (Itinerary)</span>
         </div>
         <ChevronRight className="text-outline-variant group-hover:translate-x-1 transition-transform" size={18} />
       </button>
 
-      <section className="space-y-3">
-        <div className="flex items-center justify-between px-2">
-          <h2 className="text-on-surface-variant font-bold text-sm tracking-widest uppercase">Route Overview</h2>
-          <span className="text-xs font-semibold text-secondary px-2 py-1 bg-secondary-fixed rounded-full">32 mins • 18.5 km</span>
-        </div>
-        <div className="relative h-56 w-full rounded-3xl overflow-hidden shadow-sm">
-          <img 
-            className="w-full h-full object-cover" 
-            alt="Taichung Map" 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdsBvTi82EZv4I4BCxqy6eExN6HgHhZpgIVImOsmS5E13t_qehUQtCvhzPb2De-BhtswXfPuArfS63xH39oVXx6OsUKgkxHtdwtzE1eCKdNH76D90WHs1kjBchKmVBIDffOSaUo4qAUpVyQ0q7lBwdQS2NDctofJwVL80AB5DAnukIs7lB52ujq45gmmaqg7WIB6dgUWaHwkSYIbAFb7HdH0XPZU1BZc_64B-7P8cZT9QPROvzsAuNM0NkueJ4zdkYCeCKZ_b6UeI"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-          <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md p-3 rounded-2xl flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary-container flex items-center justify-center rounded-xl">
-              <Navigation className="text-white fill-white" size={20} />
-            </div>
-            <div>
-              <p className="text-xs text-on-surface-variant font-medium">Destination</p>
-              <p className="text-sm font-bold text-on-surface">Taichung International Airport (RMQ)</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Header Description */}
+      <div className="space-y-1">
+        <h2 className="text-3xl font-extrabold text-primary tracking-tight">寧波旅遊實用小貼士</h2>
+        <p className="text-xs font-bold text-outline tracking-wider uppercase">Travel Tips & Packing List</p>
+      </div>
 
-      <section className="bg-tertiary/10 p-4 rounded-3xl flex items-start gap-4 border border-tertiary/20">
-        <div className="bg-tertiary p-2 rounded-xl shrink-0">
-          <Clock className="text-white" size={20} />
+      {/* Weather Reminder */}
+      <section className="bg-primary/5 p-5 rounded-2xl flex items-start gap-4 border border-primary/10">
+        <div className="bg-primary p-2.5 rounded-xl shrink-0 text-white">
+          <Clock size={20} />
         </div>
         <div className="space-y-1">
-          <h3 className="text-tertiary font-bold">Time Reminder</h3>
-          <p className="text-sm text-on-surface-variant leading-relaxed">
-            Arrival target <span className="font-bold text-tertiary">09:30 AM</span> to ensure airport shuttle at <span className="font-bold text-tertiary">09:30 AM</span>. Please allow for traffic.
+          <h3 className="text-primary font-bold text-base">氣候與穿衣 Climate & Outfit</h3>
+          <p className="text-xs text-on-surface-variant leading-relaxed">
+            10月是寧波最美、最舒適的秋季，氣溫平均在 <span className="font-bold text-primary">16°C - 24°C</span> 之間，秋高氣爽。白天適合穿輕便襯衫或長袖 T 恤，晚上三江口或東錢湖畔風大，建議攜帶一件 <span className="font-bold text-primary">薄外套或風衣</span> 防風禦寒。
           </p>
         </div>
       </section>
 
+      {/* Checklist Section */}
       <section className="space-y-4">
-        <h2 className="text-on-surface-variant font-bold text-sm tracking-widest uppercase px-2">Parking Options</h2>
+        <h3 className="text-lg font-bold text-on-surface flex items-center gap-2 px-1">
+          <CheckSquare className="text-primary" size={20} />
+          行前準備清單 Checklist
+        </h3>
         
-        <ParkingCard 
-          title="文昌加盟 (Wenchang Parking)" 
-          tag="24H" 
-          location="台中清泉崗機場正對面" 
-          phone="04-26151014" 
-          isSecondary
-        />
-        
-        <ParkingCard 
-          title="大漁停車 (Dayu Parking)" 
-          location="臺中市沙鹿區中航路一段" 
-          phone="0980-928-666" 
-        />
+        <div className="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 shadow-sm space-y-4">
+          <CheckItem title="必備証件" desc="台胞證、回鄉證、護照等購票身份證明原件，需隨身攜帶，高鐵及飛機全部實名制查驗。" />
+          <CheckItem title="電子錢包" desc="下載支付寶或微信 App，綁定境外信用卡或大陸銀行卡，市區內商戶全部使用電子支付。" />
+          <CheckItem title="地圖導航" desc="在大陸旅遊首選「高德地圖」或「百度地圖」App，景點定位精準，且能查看實時公交、地鐵換乘與網約車軌跡。" />
+          <CheckItem title="預約門票" desc="部分熱門景點（如天一閣、寧波博物館、保國寺等）在國慶假期人流多，建議提前 1-3 天在微信小程序或微信公眾號進行預訂。" />
+        </div>
+      </section>
+
+      {/* Food Specialties */}
+      <section className="space-y-4">
+        <h3 className="text-lg font-bold text-on-surface flex items-center gap-2 px-1">
+          <Heart className="text-rose-500 fill-rose-500/10" size={20} />
+          寧波本幫美食推薦 Food Guide
+        </h3>
+
+        <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10 space-y-4">
+          <p className="text-xs text-on-surface-variant leading-relaxed font-semibold">
+            寧波菜又稱「甬幫菜」，以「鮮鹹合一」、注重原汁原味和鮮嫩軟滑著稱。以下美食千萬不要錯過：
+          </p>
+          <div className="grid grid-cols-1 gap-3">
+            <FoodCard name="紅膏熗蟹" desc="選用頂級紅膏梭子蟹，經鹽水醃製而成，果凍般的口感，鮮美無比！" />
+            <FoodCard name="雪菜大黃魚" desc="寧波傳統名菜，野生黃魚與精選雪菜同煮，魚肉細嫩，湯頭濃白極鮮。" />
+            <FoodCard name="慈城手工年糕" desc="稻米清香、口感極其軟糯有韌性。薺菜肉絲炒年糕是經典中的經典。" />
+            <FoodCard name="缸鴨狗黑芝麻湯糰" desc="香濃的豬油芝麻內餡配上水磨糯米皮，桂花香氣四溢，象徵團團圓圓。" />
+          </div>
+        </div>
       </section>
     </div>
   );
 }
 
-function ParkingCard({ title, tag, location, phone, isSecondary }: any) {
+function CheckItem({ title, desc }: { title: string; desc: string }) {
   return (
-    <div className="bg-surface-container-lowest rounded-[2rem] p-6 space-y-4 relative overflow-hidden group shadow-sm border border-outline-variant/10">
-      <div className={cn("absolute top-0 left-0 w-1 h-full", isSecondary ? "bg-secondary" : "bg-outline-variant/30")}></div>
-      <div className="flex justify-between items-start">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-lg font-extrabold tracking-tight">{title}</h3>
-            {tag && <span className="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded-full uppercase">{tag}</span>}
-          </div>
-          <p className="text-sm text-on-surface-variant flex items-start gap-2">
-            <MapPin size={14} className="mt-0.5" />
-            {location}
-          </p>
-        </div>
+    <div className="flex gap-3 items-start border-b border-surface-variant/30 pb-3 last:border-b-0 last:pb-0">
+      <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <p className="font-bold text-sm text-on-surface">{title}</p>
+        <p className="text-xs text-on-surface-variant leading-relaxed mt-1">{desc}</p>
       </div>
-      <div className="flex flex-col">
-        <span className="text-[10px] uppercase tracking-wider text-outline">Contact</span>
-        <span className="text-sm font-bold text-primary">{phone}</span>
-      </div>
-      <button className="flex items-center justify-center gap-2 w-full py-3 bg-primary text-white rounded-2xl font-bold transition-transform active:scale-95 shadow-md">
-        <Navigation size={18} />
-        Google Map 導航
-      </button>
+    </div>
+  );
+}
+
+function FoodCard({ name, desc }: { name: string; desc: string }) {
+  return (
+    <div className="bg-white rounded-xl p-3.5 border border-outline-variant/10 shadow-sm">
+      <p className="font-bold text-sm text-primary">{name}</p>
+      <p className="text-xs text-on-surface-variant leading-relaxed mt-1 font-medium">{desc}</p>
     </div>
   );
 }
