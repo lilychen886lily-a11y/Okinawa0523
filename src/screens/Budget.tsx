@@ -72,9 +72,13 @@ function handleFirestoreError(error: unknown, operationType: OperationType, path
 
 function cleanAmountInput(val: string): string {
   // Strip currency symbols (¥, ￥, $, NT$, etc.) and common separators (commas, spaces, letters)
-  // We keep only digits, period/dot, and minus/plus signs
   let cleaned = val.replace(/[¥￥$nNtT\s,]/gi, '');
-  // If there are still non-numeric characters (except dot), strip them
+  // Ensure we only allow one decimal point
+  const parts = cleaned.split('.');
+  if (parts.length > 2) {
+    cleaned = parts[0] + '.' + parts.slice(1).join('');
+  }
+  // Strip any remaining non-numeric characters except the single dot
   cleaned = cleaned.replace(/[^0-9.]/g, '');
   return cleaned;
 }
