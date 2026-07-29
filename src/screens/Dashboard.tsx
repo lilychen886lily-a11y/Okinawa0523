@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sun, Cloud, CloudRain, CloudSun, CloudLightning, Plane, Hotel, Train, Calendar, ChevronRight, ExternalLink, Wallet } from 'lucide-react';
+import { Sun, Cloud, CloudRain, CloudSun, CloudLightning, Plane, Hotel, Train, Calendar, ChevronRight, ExternalLink, Wallet, ClipboardList } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -76,7 +76,7 @@ export function Dashboard() {
           label="交通票務" 
           color="bg-[#0077b6]" 
           onClick={() => navigate('/flights')} 
-          extra={<div className="flex items-center gap-1.5 opacity-70"><span className="text-[10px] font-bold text-white uppercase tracking-widest">Go to</span><ExternalLink size={16} /></div>}
+          extra={<div className="flex items-center gap-1.5 opacity-70"><span className="text-[10px] font-bold text-white uppercase tracking-widest">前往</span><ExternalLink size={16} /></div>}
         />
         <NavButton 
           icon={Hotel} 
@@ -95,6 +95,12 @@ export function Dashboard() {
           label="每日行程" 
           color="bg-[#005d90]" 
           onClick={() => navigate('/itinerary')} 
+        />
+        <NavButton 
+          icon={ClipboardList} 
+          label="行前待辦與準備" 
+          color="bg-[#0d9488]" 
+          onClick={() => navigate('/todos')} 
         />
         <NavButton 
           icon={Wallet} 

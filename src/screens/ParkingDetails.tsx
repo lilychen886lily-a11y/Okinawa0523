@@ -14,7 +14,7 @@ export function ParkingDetails() {
       >
         <div className="flex items-center gap-3">
           <CalendarDays className="text-primary" size={20} />
-          <span className="font-bold text-on-surface tracking-tight">返回每日行程 (Itinerary)</span>
+          <span className="font-bold text-on-surface tracking-tight">返回每日行程</span>
         </div>
         <ChevronRight className="text-outline-variant group-hover:translate-x-1 transition-transform" size={18} />
       </button>
@@ -22,7 +22,7 @@ export function ParkingDetails() {
       {/* Header Description */}
       <div className="space-y-1">
         <h2 className="text-3xl font-extrabold text-primary tracking-tight">寧波旅遊實用小貼士</h2>
-        <p className="text-xs font-bold text-outline tracking-wider uppercase">Travel Tips & Packing List</p>
+        <p className="text-xs font-bold text-outline tracking-wider uppercase">旅遊貼士與準備清單</p>
       </div>
 
       {/* Weather Reminder */}
@@ -31,7 +31,7 @@ export function ParkingDetails() {
           <Clock size={20} />
         </div>
         <div className="space-y-1">
-          <h3 className="text-primary font-bold text-base">氣候與穿衣 Climate & Outfit</h3>
+          <h3 className="text-primary font-bold text-base">氣候與穿衣</h3>
           <p className="text-xs text-on-surface-variant leading-relaxed">
             10月是寧波最美、最舒適的秋季，氣溫平均在 <span className="font-bold text-primary">16°C - 24°C</span> 之間，秋高氣爽。白天適合穿輕便襯衫或長袖 T 恤，晚上三江口或東錢湖畔風大，建議攜帶一件 <span className="font-bold text-primary">薄外套或風衣</span> 防風禦寒。
           </p>
@@ -42,7 +42,7 @@ export function ParkingDetails() {
       <section className="space-y-4">
         <h3 className="text-lg font-bold text-on-surface flex items-center gap-2 px-1">
           <CheckSquare className="text-primary" size={20} />
-          行前準備清單 Checklist
+          行前準備清單
         </h3>
         
         <div className="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 shadow-sm space-y-4">
@@ -57,7 +57,7 @@ export function ParkingDetails() {
       <section className="space-y-4">
         <h3 className="text-lg font-bold text-on-surface flex items-center gap-2 px-1">
           <Heart className="text-rose-500 fill-rose-500/10" size={20} />
-          寧波本幫美食推薦 Food Guide
+          寧波本幫美食推薦
         </h3>
 
         <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10 space-y-4">

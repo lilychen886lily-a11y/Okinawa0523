@@ -302,12 +302,38 @@ export function Budget() {
     }
   };
 
+  // Import custom quick expense (e.g. food, play)
+  const handleImportQuickExpense = async (name: string, price: number, category: string, defaultPayer: string) => {
+    setErrorMessage(null);
+    const payload = {
+      amount: price,
+      type: 'expense' as const,
+      category: category,
+      description: name,
+      date: new Date().toISOString().split('T')[0],
+      addedBy: auth.currentUser?.email || 'Anonymous',
+      payer: defaultPayer,
+      splitWith: MEMBERS,
+    };
+
+    try {
+      await addDoc(collection(db, 'transactions'), payload);
+    } catch (error) {
+      try {
+        handleFirestoreError(error, OperationType.CREATE, 'transactions');
+      } catch (err: any) {
+        setErrorMessage('導入費用失敗：' + err.message);
+      }
+    }
+  };
+
   // Import all accommodation expenses at once
   const handleImportAllAccommodations = async (defaultPayer: string) => {
     setErrorMessage(null);
     const accommodations = [
-      { name: '寧波天一城隍廟漫心府 (2晚)', price: 953.7 },
-      { name: '寧波花間堂·韓嶺 (1晚)', price: 399.5 }
+      { name: '寧波天一城隍廟漫心府 (2晚)', price: 953.7, payer: defaultPayer },
+      { name: '寧波花間堂·韓嶺 (1晚)', price: 399.5, payer: defaultPayer },
+      { name: '寧波英迪格酒店 (1晚)', price: 888.0, payer: '小花' }
     ];
 
     try {
@@ -319,7 +345,7 @@ export function Budget() {
           description: acc.name,
           date: new Date().toISOString().split('T')[0],
           addedBy: auth.currentUser?.email || 'Anonymous',
-          payer: defaultPayer,
+          payer: acc.payer,
           splitWith: MEMBERS,
         };
         return addDoc(collection(db, 'transactions'), payload);
@@ -443,14 +469,14 @@ export function Budget() {
           className="flex items-center gap-1.5 text-xs font-bold text-on-surface-variant hover:text-primary transition-colors bg-surface-container-low px-3 py-1.5 rounded-xl border border-outline-variant/10 active:scale-95"
         >
           <ChevronLeft size={16} />
-          返回首頁 Dashboard
+          返回首頁
         </button>
       </div>
 
       {/* Header text */}
       <div className="space-y-2">
         <h2 className="text-3xl font-extrabold text-primary tracking-tight">旅行記帳與分攤</h2>
-        <p className="text-xs font-bold text-outline tracking-wider uppercase">Trip Budget & Splitter</p>
+        <p className="text-xs font-bold text-outline tracking-wider uppercase">旅行預算與分攤</p>
         <p className="text-sm text-on-surface-variant leading-relaxed font-medium">
           專為本行程設計的多人記帳與平分系統。輸入每筆共同花費與付款人，系統將自動精算 <span className="font-semibold text-primary">昱惠、小驊、小花</span> 的已付/應付額，並提供極簡轉帳方案。
         </p>
@@ -539,7 +565,7 @@ export function Budget() {
       <section className="bg-surface-container-high rounded-2xl p-6 border border-outline-variant/20 shadow-sm">
         <div className="flex items-center gap-2.5 text-[#00677d] mb-4">
           <PieChart size={22} />
-          <h3 className="font-extrabold text-lg">極簡轉帳結算方案 (Settlement Plan)</h3>
+          <h3 className="font-extrabold text-lg">極簡轉帳結算方案</h3>
         </div>
 
         {settlements.length === 0 ? (
@@ -584,78 +610,6 @@ export function Budget() {
         {/* Column 1: Add Transaction (1 Span) */}
         <div className="lg:col-span-1 space-y-6">
           
-          {/* Quick Import Card */}
-          <div className="bg-[#00677d]/5 rounded-2xl p-6 border border-[#00677d]/20 space-y-4">
-            <h3 className="font-extrabold text-base text-[#00677d] flex items-center gap-2">
-              <PieChart size={18} />
-              快捷導入住宿金額
-            </h3>
-            <p className="text-xs text-on-surface-variant leading-relaxed">
-              一鍵將行程中的酒店款項記錄到雲端（預設 <span className="font-semibold text-[#00677d]">3人平分</span>，自動轉為人民幣結算）。
-            </p>
-
-            {/* Payer selection for accommodation */}
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-outline uppercase block">選擇實際付款人 (Payer)</label>
-              <div className="grid grid-cols-3 gap-1.5">
-                {MEMBERS.map((m) => (
-                  <button
-                    key={m}
-                    type="button"
-                    onClick={() => setPayer(m)}
-                    className={cn(
-                      "py-1.5 px-2 rounded-xl border text-[11px] font-bold transition-all",
-                      payer === m 
-                        ? "bg-[#00677d] text-white border-[#00677d] shadow-xs" 
-                        : "bg-white text-on-surface-variant border-outline-variant/40 hover:bg-[#00677d]/5"
-                    )}
-                  >
-                    {m}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-2 pt-1">
-              <button
-                type="button"
-                onClick={() => handleImportAccommodation('寧波天一城隍廟漫心府 (2晚)', 953.7, payer)}
-                className="w-full bg-white hover:bg-emerald-50/40 text-on-surface border border-outline-variant/30 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-between group active:scale-98"
-              >
-                <span className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                  漫心府 (2晚)
-                </span>
-                <span className="font-extrabold text-primary">¥ 953.7</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleImportAccommodation('寧波花間堂·韓嶺 (1晚)', 399.5, payer)}
-                className="w-full bg-white hover:bg-emerald-50/40 text-on-surface border border-outline-variant/30 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-between group active:scale-98"
-              >
-                <span className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                  花間堂·韓嶺
-                </span>
-                <span className="font-extrabold text-primary">¥ 399.5</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleImportAllAccommodations(payer)}
-                className="w-full bg-[#00677d] hover:bg-[#005d90] text-white py-2.5 px-3 rounded-xl text-xs font-bold transition-all shadow-sm active:scale-98 flex items-center justify-center gap-1.5"
-              >
-                <Plus size={14} />
-                一鍵導入上述全部 (¥ 1,353.2)
-              </button>
-            </div>
-            
-            <div className="text-[10px] text-outline text-center font-medium">
-              * 導入後會立刻同步雲端，更新下方平分餘額。
-            </div>
-          </div>
-
           {/* Manual Form Card */}
           <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10 space-y-4 h-fit">
             <h3 className="font-extrabold text-lg text-on-surface flex items-center gap-2">
@@ -666,7 +620,7 @@ export function Budget() {
             <form onSubmit={handleAddTransaction} className="space-y-4 pt-1">
             {/* Amount */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-outline uppercase">金額 (CNY / TWD)</label>
+              <label className="text-[11px] font-bold text-outline uppercase">金額 (人民幣 / 新台幣)</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold text-sm">¥</span>
                 <input 
@@ -683,7 +637,7 @@ export function Budget() {
 
             {/* Payer (Who paid) */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-outline uppercase">付款人 (Payer)</label>
+              <label className="text-[11px] font-bold text-outline uppercase">付款人</label>
               <div className="grid grid-cols-3 gap-2">
                 {MEMBERS.map((m) => (
                   <button
@@ -706,7 +660,7 @@ export function Budget() {
             {/* Split With (Who shares) */}
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
-                <label className="text-[11px] font-bold text-outline uppercase">分攤人 (Split With)</label>
+                <label className="text-[11px] font-bold text-outline uppercase">分攤人</label>
                 <button 
                   type="button" 
                   onClick={() => setSplitWith(splitWith.length === MEMBERS.length ? [] : MEMBERS)}
@@ -890,7 +844,7 @@ export function Budget() {
 
                         {/* Edit Split With */}
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-outline block">分攤人 (可複選)</label>
+                          <label className="text-[10px] font-bold text-outline block">分攤人</label>
                           <div className="flex gap-2">
                             {MEMBERS.map((m) => {
                               const checked = editSplitWith.includes(m);

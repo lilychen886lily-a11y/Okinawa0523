@@ -13,21 +13,21 @@ export function AirportInfo() {
         className="w-full py-5 bg-primary/5 text-primary border border-primary/20 rounded-xl font-bold text-lg shadow-sm flex items-center justify-center gap-2 active:scale-95 transition-transform"
       >
         <ChevronLeft size={20} />
-        返回首頁 Dashboard
+        返回首頁
       </button>
 
       {/* Airport Hub Section */}
       <section className="space-y-4">
         <div className="flex items-end justify-between px-1">
           <h2 className="text-2xl font-extrabold tracking-tight text-primary">寧波櫟社國際機場 (NGB)</h2>
-          <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Lishe Airport</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">櫟社國際機場</span>
         </div>
         <div className="relative bg-surface-container-lowest rounded-2xl p-6 shadow-sm overflow-hidden border border-outline-variant/10">
           <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#0077b6]"></div>
           <div className="space-y-5">
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-[10px] font-bold text-outline uppercase tracking-tighter">Airport Code</p>
+                <p className="text-[10px] font-bold text-outline uppercase tracking-tighter">機場代碼</p>
                 <p className="text-2xl font-extrabold text-on-surface">NGB / 櫟社 T2 航站樓</p>
               </div>
               <div className="bg-[#0077b6]/10 px-3 py-1 rounded-full border border-[#0077b6]/20">
@@ -38,16 +38,16 @@ export function AirportInfo() {
             </div>
             
             <div className="space-y-1.5">
-              <p className="text-[10px] font-bold text-outline uppercase">航站樓資訊 Terminal Info</p>
+              <p className="text-[10px] font-bold text-outline uppercase">航站樓資訊</p>
               <p className="font-semibold text-sm text-on-surface leading-relaxed">
-                寧波機場目前所有國內、國際航班均在全新的 <span className="text-primary font-bold">Terminal 2 (T2)</span> 航站樓運行。
+                寧波機場目前所有國內、國際航班均在全新的 <span className="text-primary font-bold">2號航站樓 (T2)</span> 航站樓運行。
               </p>
             </div>
 
             <div className="bg-primary/5 p-4 rounded-xl border border-primary/10 space-y-3">
               <div className="flex items-center gap-2 text-[#0077b6] font-bold text-xs uppercase tracking-wider">
                 <Compass size={14} />
-                地鐵接駁 (Metro Connection)
+                地鐵接駁
               </div>
               <p className="text-xs text-on-surface-variant leading-relaxed font-medium">
                 航站樓 B2 層直通 <span className="font-bold text-on-surface">寧波地鐵 2 號線（櫟社機場站）</span>。搭乘地鐵前往寧波高鐵站只需 25 分鐘，前往鼓樓、城隍廟等市中心熱門區域約 30 分鐘，是避開路面擁堵的最優選擇。
@@ -69,8 +69,8 @@ export function AirportInfo() {
       {/* Railway Station Section */}
       <section className="space-y-4">
         <div className="flex items-end justify-between px-1">
-          <h2 className="text-2xl font-extrabold tracking-tight text-[#0e7490]">高鐵寧波站 (Ningbo Station)</h2>
-          <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Railway Station</span>
+          <h2 className="text-2xl font-extrabold tracking-tight text-[#0e7490]">高鐵寧波站</h2>
+          <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">寧波高鐵站</span>
         </div>
         <div className="bg-surface-container-low rounded-2xl p-6 space-y-4 border border-outline-variant/10">
           <h3 className="text-xl font-bold text-on-surface flex items-center gap-2">
@@ -82,11 +82,11 @@ export function AirportInfo() {
           </p>
           <div className="grid grid-cols-2 gap-3 pt-2">
             <div className="bg-white p-3.5 rounded-xl border border-outline-variant/10 shadow-sm">
-              <p className="text-[10px] font-bold text-outline uppercase mb-1">地鐵換乘 Metro</p>
+              <p className="text-[10px] font-bold text-outline uppercase mb-1">地鐵換乘</p>
               <p className="text-xs font-bold text-on-surface">地鐵 2 號線、4 號線</p>
             </div>
             <div className="bg-white p-3.5 rounded-xl border border-outline-variant/10 shadow-sm">
-              <p className="text-[10px] font-bold text-outline uppercase mb-1">出站打車 Taxi</p>
+              <p className="text-[10px] font-bold text-outline uppercase mb-1">出站打車</p>
               <p className="text-xs font-bold text-on-surface">南、北廣場地下出租車候車區</p>
             </div>
           </div>
@@ -104,7 +104,7 @@ export function AirportInfo() {
       <section className="bg-white px-6 py-6 rounded-2xl border border-outline-variant/10 shadow-sm space-y-4">
         <h3 className="text-lg font-bold text-on-surface flex items-center gap-2 text-primary">
           <ShieldCheck size={20} />
-          快捷支付與乘車碼 (Mobile Transit)
+          快捷支付與乘車碼
         </h3>
         <p className="text-xs text-on-surface-variant leading-relaxed">
           寧波市公共交通極其發達，完全無需購買實體票卡。推薦以下兩種最方便的出行方案：

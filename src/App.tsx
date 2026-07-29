@@ -16,6 +16,7 @@ import { Accommodation } from '@/screens/Accommodation';
 import { FlightOverview } from '@/screens/FlightOverview';
 import { FlightDetails } from '@/screens/FlightDetails';
 import { Budget } from '@/screens/Budget';
+import { Todos } from '@/screens/Todos';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -32,7 +33,7 @@ export default function App() {
       <div className="min-h-screen bg-background relative selection:bg-primary/20">
         <TopBar />
         
-        <main className="mx-auto max-w-5xl">
+        <main className="mx-auto max-w-5xl pb-36">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/itinerary" element={<Itinerary />} />
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/flights" element={<FlightOverview />} />
             <Route path="/flights/:code" element={<FlightDetails />} />
             <Route path="/budget" element={<Budget />} />
+            <Route path="/todos" element={<Todos />} />
             {/* Fallback */}
             <Route path="*" element={<Dashboard />} />
           </Routes>

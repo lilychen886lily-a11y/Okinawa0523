@@ -9,16 +9,16 @@ export function FlightOverview() {
   const transitGroups = [
     {
       date: '7月28日',
-      day: '(Tue) - 去程 Outbound',
+      day: '（週二） - 去程',
       transits: [
-        { carrier: '春秋航空 Spring Airlines', code: '9C8686', from: 'KHH 高雄小港', to: 'NGB 寧波櫟社', dep: '18:35', arr: '20:45', type: 'flight' }
+        { carrier: '春秋航空', code: '9C8686', from: '高雄小港', to: '寧波櫟社', dep: '18:35', arr: '20:45', type: 'flight' }
       ]
     },
     {
       date: '8月1日',
-      day: '(Sat) - 回程 Inbound',
+      day: '（週六） - 回程',
       transits: [
-        { carrier: '春秋航空 Spring Airlines', code: '9C8685', from: 'NGB 寧波櫟社', to: 'KHH 高雄小港', dep: '15:30', arr: '17:40', type: 'flight' }
+        { carrier: '春秋航空', code: '9C8685', from: '寧波櫟社', to: '高雄小港', dep: '15:30', arr: '17:40', type: 'flight' }
       ]
     }
   ];
@@ -31,7 +31,7 @@ export function FlightOverview() {
           className="w-full md:w-auto flex items-center justify-center gap-3 bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg active:scale-95 transition-transform"
         >
           <Home size={20} fill="currentColor" />
-          返回首頁 Dashboard
+          返回首頁
         </button>
       </div>
 

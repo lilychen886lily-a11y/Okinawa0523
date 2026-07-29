@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Home, Compass, Plane, Wallet } from 'lucide-react';
+import { Home, Compass, Plane, Wallet, ClipboardList } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -7,6 +7,7 @@ const navItems = [
   { id: 'dashboard', label: '首頁', icon: Home, path: '/' },
   { id: 'itinerary', label: '行程', icon: Compass, path: '/itinerary' },
   { id: 'budget', label: '記帳', icon: Wallet, path: '/budget' },
+  { id: 'todos', label: '待辦', icon: ClipboardList, path: '/todos' },
   { id: 'flights', label: '機票', icon: Plane, path: '/flights' },
 ];
 

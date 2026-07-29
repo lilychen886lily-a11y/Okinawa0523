@@ -19,86 +19,86 @@ export function FlightDetails() {
   let depTime = '';
   let arrTime = '';
   let dateText = '7月28日';
-  let daySub = 'TUESDAY, JULY 2026';
+  let daySub = '2026年7月28日 星期二';
   let fromCode = 'KHH';
   let fromName = '高雄小港';
   let toCode = 'NGB';
   let toName = '寧波櫟社';
-  let duration = '2h 10m';
+  let duration = '2小時10分';
   let isTrain = false;
 
   if (is9C8686) {
     carrierName = '春秋航空 9C8686';
-    subText = 'Spring Airlines';
+    subText = '春秋航空';
     depTime = '18:35';
     arrTime = '20:45';
   } else if (is9C8685) {
     carrierName = '春秋航空 9C8685';
-    subText = 'Spring Airlines';
+    subText = '春秋航空';
     dateText = '8月1日';
-    daySub = 'SATURDAY, AUGUST 2026';
+    daySub = '2026年8月1日 星期六';
     depTime = '15:30';
     arrTime = '17:40';
     fromCode = 'NGB';
     fromName = '寧波櫟社';
     toCode = 'KHH';
     toName = '高雄小港';
-    duration = '2h 10m';
+    duration = '2小時10分';
   } else if (isMU5482) {
     carrierName = '中國東方航空 MU5482';
-    subText = 'China Eastern Airlines';
+    subText = '中國東方航空';
     depTime = '12:05';
     arrTime = '14:15';
     fromCode = 'HKG';
     fromName = '香港國際';
-    duration = '2h 10m';
+    duration = '2小時10分';
   } else if (isMU5481) {
     carrierName = '中國東方航空 MU5481';
-    subText = 'China Eastern Airlines';
+    subText = '中國東方航空';
     dateText = '8月1日';
-    daySub = 'SATURDAY, AUGUST 2026';
+    daySub = '2026年8月1日 星期六';
     depTime = '15:20';
     arrTime = '17:35';
     fromCode = 'NGB';
     fromName = '寧波櫟社';
     toCode = 'HKG';
     toName = '香港國際';
-    duration = '2h 15m';
+    duration = '2小時15分';
   } else if (isG7501) {
     carrierName = '高鐵動車 G7501';
-    subText = 'China Railway High-speed';
+    subText = '中國高鐵';
     depTime = '08:35';
     arrTime = '10:20';
     fromCode = 'SHA';
     fromName = '上海虹橋';
     toCode = 'NGQ';
     toName = '寧波高鐵站';
-    duration = '1h 45m';
+    duration = '1小時45分';
     isTrain = true;
   } else if (isG7516) {
     carrierName = '高鐵動車 G7516';
-    subText = 'China Railway High-speed';
+    subText = '中國高鐵';
     dateText = '8月1日';
-    daySub = 'SATURDAY, AUGUST 2026';
+    daySub = '2026年8月1日 星期六';
     depTime = '16:30';
     arrTime = '18:15';
     fromCode = 'NGQ';
     fromName = '寧波高鐵站';
     toCode = 'SHA';
     toName = '上海虹橋';
-    duration = '1h 45m';
+    duration = '1小時45分';
     isTrain = true;
   } else {
     // Fallback default
     carrierName = '春秋航空 9C8686';
-    subText = 'Spring Airlines';
+    subText = '春秋航空';
     depTime = '18:35';
     arrTime = '20:45';
   }
 
   // PNR or Ticket Info Mapping
   let bookingData = {
-    refType: isTrain ? 'TICKET NO. 票務編號' : 'PNR 訂位代號',
+    refType: isTrain ? '票務編號' : '訂位代號（PNR）',
     refValue: isTrain ? 'E293810239' : 'NQ7Z2Y',
     pax: [
       { name: '王小明 (WANG XIAOMING)', seat: isTrain ? '03車廂 08A' : '15A', bag: isTrain ? '車內行李架' : '託運 20kg + 手提 7kg' }
@@ -170,7 +170,7 @@ export function FlightDetails() {
                 <p className="text-xl font-black text-primary tracking-wider">{bookingData.refValue}</p>
               </div>
               <div className="text-right">
-                <p className="text-[10px] font-bold text-outline uppercase tracking-wider">Passenger 乘車人</p>
+                <p className="text-[10px] font-bold text-outline uppercase tracking-wider">乘車人</p>
                 {bookingData.pax.map((p, idx) => (
                   <div key={idx} className="mt-1">
                     <p className="font-bold text-on-surface text-sm">{p.name}</p>

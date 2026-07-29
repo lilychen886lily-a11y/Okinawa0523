@@ -1,4 +1,4 @@
-import { Home, ChevronLeft, MapPin, Phone, Star, Coffee, Wifi, ShieldAlert, Navigation } from 'lucide-react';
+import { Home, ChevronLeft, MapPin, Phone, Star, Coffee, Wifi, ShieldAlert, Navigation, Wine } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
@@ -13,7 +13,7 @@ export function Accommodation() {
         className="w-full py-5 bg-primary/5 text-primary border border-primary/20 rounded-xl font-bold text-lg shadow-sm flex items-center justify-center gap-2 active:scale-95 transition-transform"
       >
         <ChevronLeft size={20} />
-        返回首頁 Dashboard
+        返回首頁
       </button>
 
 
@@ -21,7 +21,7 @@ export function Accommodation() {
       {/* Accommodation Card 1 */}
       <section className="space-y-4">
         <div className="flex justify-between items-center px-1">
-          <span className="text-xs font-bold text-outline uppercase tracking-wider">Day 1 & Day 2 入住（老城中心）</span>
+          <span className="text-xs font-bold text-outline uppercase tracking-wider">第一、二天 入住（老城中心）</span>
           <span className="text-xs font-semibold text-primary px-2.5 py-1 bg-primary/10 rounded-full">中式府邸美學</span>
         </div>
 
@@ -38,7 +38,7 @@ export function Accommodation() {
               <span className="text-xs font-bold text-on-surface-variant ml-1">待入住 | 2晚共 ¥953.70</span>
             </div>
             <h3 className="text-2xl font-black text-on-surface leading-tight">寧波天一城隍廟漫心府</h3>
-            <p className="text-xs font-bold text-outline uppercase tracking-wider">Ningbo Tianyi City God Temple Manxin Mansion</p>
+            <p className="text-xs font-bold text-outline uppercase tracking-wider">寧波天一城隍廟漫心府</p>
           </div>
 
           <p className="text-xs text-on-surface-variant leading-relaxed">
@@ -75,7 +75,7 @@ export function Accommodation() {
       {/* Accommodation Card 2 */}
       <section className="space-y-4">
         <div className="flex justify-between items-center px-1">
-          <span className="text-xs font-bold text-outline uppercase tracking-wider">Day 3 入住（東錢湖度假區）</span>
+          <span className="text-xs font-bold text-outline uppercase tracking-wider">第三天 入住（東錢湖度假區）</span>
           <span className="text-xs font-semibold text-[#00677d] px-2.5 py-1 bg-[#00677d]/10 rounded-full">水鄉文藝避世</span>
         </div>
 
@@ -92,7 +92,7 @@ export function Accommodation() {
               <span className="text-xs font-bold text-on-surface-variant ml-1">待入住 | 1晚 ¥399.50</span>
             </div>
             <h3 className="text-2xl font-black text-[#00677d] leading-tight">寧波花間堂·韓嶺</h3>
-            <p className="text-xs font-bold text-outline uppercase tracking-wider">Blossom House Ningbo Hanling</p>
+            <p className="text-xs font-bold text-outline uppercase tracking-wider">寧波花間堂·韓嶺</p>
           </div>
 
           <p className="text-xs text-on-surface-variant leading-relaxed">
@@ -129,7 +129,7 @@ export function Accommodation() {
       {/* Accommodation Card 3 */}
       <section className="space-y-4">
         <div className="flex justify-between items-center px-1">
-          <span className="text-xs font-bold text-outline uppercase tracking-wider">Day 4 入住（東部新城）</span>
+          <span className="text-xs font-bold text-outline uppercase tracking-wider">第四天 入住（東部新城）</span>
           <span className="text-xs font-semibold text-[#8a2be2] px-2.5 py-1 bg-[#8a2be2]/10 rounded-full">奢華航海風情</span>
         </div>
 
@@ -143,10 +143,10 @@ export function Accommodation() {
               <Star size={16} fill="currentColor" />
               <Star size={16} fill="currentColor" />
               <Star size={16} fill="currentColor" />
-              <span className="text-xs font-bold text-on-surface-variant ml-1">IHG積分免費兌換 | 確認碼: 24347452</span>
+              <span className="text-xs font-bold text-on-surface-variant ml-1">已預訂 | 1晚 ¥888.00 (小芲付錢)</span>
             </div>
             <h3 className="text-2xl font-black text-[#8a2be2] leading-tight">寧波英迪格酒店</h3>
-            <p className="text-xs font-bold text-outline uppercase tracking-wider">Ningbo Hotel Indigo (IHG)</p>
+            <p className="text-xs font-bold text-outline uppercase tracking-wider">寧波英迪格酒店</p>
           </div>
 
           <p className="text-xs text-on-surface-variant leading-relaxed">
@@ -154,9 +154,9 @@ export function Accommodation() {
           </p>
 
           <div className="grid grid-cols-3 gap-2.5 pt-2">
-            <FeatureIcon icon={Wifi} text="2 Double Standard" />
-            <FeatureIcon icon={Coffee} text="積分免費兌" />
-            <FeatureIcon icon={MapPin} text="鄞州新城" />
+            <FeatureIcon icon={Wifi} text="精品雙床房" />
+            <FeatureIcon icon={Coffee} text="附二客早餐" />
+            <FeatureIcon icon={MapPin} text="東部新城" />
           </div>
 
           <div className="pt-4 border-t border-surface-variant/30 space-y-2">
@@ -167,6 +167,10 @@ export function Accommodation() {
             <div className="flex items-center gap-2 text-xs text-on-surface-variant">
               <Phone size={14} />
               <span>0574-89089999</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-[#8a2be2] font-semibold">
+              <Wine size={14} />
+              <span>貴賓室酒水任飲</span>
             </div>
           </div>
 

@@ -1,6 +1,6 @@
 {
-  "name": "Okinawa Travel Dashboard",
-  "description": "寧波精選旅遊與行程規劃指南：包含天一閣、老外灘、東錢湖、韓嶺老街、慈城古縣城等4日經典文化與美景路線，並提供櫟社機場、市區地鐵、精選住宿與公積金記帳功能。",
+  "name": "寧波旅行行程與記帳系統",
+  "description": "寧波精選五天四夜經典旅遊與行程規劃指南，提供每日行程地標導航、交通地鐵指引、精選住宿詳情以及多人即時共同記帳與極簡轉帳結算系統。",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

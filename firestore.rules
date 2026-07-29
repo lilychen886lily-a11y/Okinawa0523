@@ -16,6 +16,24 @@ service cloud.firestore {
       allow delete: if true; // Enabling client-side deletion as requested
     }
 
+    match /todos/{todoId} {
+      allow read: if true;
+      allow create: if isValidTodo(request.resource.data);
+      allow update: if isValidTodo(request.resource.data);
+      allow delete: if true;
+    }
+
+    function isValidTodo(data) {
+      return data.keys().hasAll(['title', 'completed', 'assignee', 'category', 'date', 'addedBy'])
+        && data.keys().size() == 6
+        && data.title is string && data.title.size() <= 200
+        && data.completed is bool
+        && data.assignee is string && data.assignee.size() <= 100
+        && data.category is string && data.category.size() <= 100
+        && data.date is string && data.date.size() <= 100
+        && data.addedBy is string && data.addedBy.size() <= 100;
+    }
+
     function isValidTransaction(data) {
       return data.keys().hasAll(['amount', 'type', 'category', 'date', 'description', 'addedBy', 'payer', 'splitWith'])
         && data.keys().size() == 8

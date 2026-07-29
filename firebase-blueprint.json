@@ -15,12 +15,30 @@
         "splitWith": { "type": "array", "description": "List of people who split this transaction" }
       },
       "required": ["amount", "type", "category", "date", "payer", "splitWith"]
+    },
+    "Todo": {
+      "title": "Todo Item",
+      "description": "A collaborative task or item to prepare for the trip.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "The description or task content" },
+        "completed": { "type": "boolean", "description": "Whether the task is completed" },
+        "assignee": { "type": "string", "description": "The person assigned to the task ('昱惠', '小驊', '小花' or '未分配')" },
+        "category": { "type": "string", "description": "Category of the task" },
+        "date": { "type": "string", "description": "Target date for completion" },
+        "addedBy": { "type": "string", "description": "Who added this todo" }
+      },
+      "required": ["title", "completed", "addedBy"]
     }
   },
   "firestore": {
     "transactions/{transactionId}": {
       "schema": "Transaction",
       "description": "Collection of all income and expense transactions."
+    },
+    "todos/{todoId}": {
+      "schema": "Todo",
+      "description": "Collection of collaborative tasks to prepare for the trip."
     }
   }
 }
