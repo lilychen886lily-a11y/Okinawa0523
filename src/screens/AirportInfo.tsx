@@ -1,125 +1,83 @@
-import { Home, ChevronLeft, MapPin, Phone, Clock, Plane, Info, Users, Train, ShieldCheck, CreditCard, Compass } from 'lucide-react';
+import { Plane, ShieldCheck, CreditCard, ChevronLeft, Home, Navigation, AlertCircle, FileCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { cn } from '@/lib/utils';
 
 export function AirportInfo() {
   const navigate = useNavigate();
 
   return (
-    <div className="pt-24 px-6 pb-44 max-w-md mx-auto space-y-8">
-      <button 
-        onClick={() => navigate('/')}
-        className="w-full py-5 bg-primary/5 text-primary border border-primary/20 rounded-xl font-bold text-lg shadow-sm flex items-center justify-center gap-2 active:scale-95 transition-transform"
-      >
-        <ChevronLeft size={20} />
-        返回首頁
-      </button>
-
-      {/* Airport Hub Section */}
-      <section className="space-y-4">
-        <div className="flex items-end justify-between px-1">
-          <h2 className="text-2xl font-extrabold tracking-tight text-primary">寧波櫟社國際機場 (NGB)</h2>
-          <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">櫟社國際機場</span>
+    <div className="mt-20 px-4 pb-44 max-w-3xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <span className="text-primary font-black text-xs uppercase tracking-widest block">🇮🇹🇭🇷 機場與海關通關</span>
+          <h1 className="text-2xl font-black text-on-surface tracking-tight">歐洲海關退稅與機場指引</h1>
         </div>
-        <div className="relative bg-surface-container-lowest rounded-2xl p-6 shadow-sm overflow-hidden border border-outline-variant/10">
-          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#0077b6]"></div>
-          <div className="space-y-5">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-[10px] font-bold text-outline uppercase tracking-tighter">機場代碼</p>
-                <p className="text-2xl font-extrabold text-on-surface">NGB / 櫟社 T2 航站樓</p>
-              </div>
-              <div className="bg-[#0077b6]/10 px-3 py-1 rounded-full border border-[#0077b6]/20">
-                <span className="text-[10px] font-bold text-[#0077b6] flex items-center gap-1">
-                  <Plane size={10} fill="currentColor" /> 地鐵直達
-                </span>
-              </div>
-            </div>
-            
-            <div className="space-y-1.5">
-              <p className="text-[10px] font-bold text-outline uppercase">航站樓資訊</p>
-              <p className="font-semibold text-sm text-on-surface leading-relaxed">
-                寧波機場目前所有國內、國際航班均在全新的 <span className="text-primary font-bold">2號航站樓 (T2)</span> 航站樓運行。
-              </p>
-            </div>
+        <button 
+          onClick={() => navigate('/')}
+          className="p-2.5 rounded-2xl bg-surface-container-lowest border border-outline-variant/10 shadow-sm hover:bg-surface-container-low transition-colors"
+        >
+          <Home size={18} className="text-on-surface" />
+        </button>
+      </div>
 
-            <div className="bg-primary/5 p-4 rounded-xl border border-primary/10 space-y-3">
-              <div className="flex items-center gap-2 text-[#0077b6] font-bold text-xs uppercase tracking-wider">
-                <Compass size={14} />
-                地鐵接駁
-              </div>
-              <p className="text-xs text-on-surface-variant leading-relaxed font-medium">
-                航站樓 B2 層直通 <span className="font-bold text-on-surface">寧波地鐵 2 號線（櫟社機場站）</span>。搭乘地鐵前往寧波高鐵站只需 25 分鐘，前往鼓樓、城隍廟等市中心熱門區域約 30 分鐘，是避開路面擁堵的最優選擇。
-              </p>
-              <div className="text-[10px] font-bold text-outline">首班車 06:00 / 末班車 22:20</div>
-            </div>
+      {/* Tax Refund Section */}
+      <section className="bg-surface-container-lowest p-5 rounded-3xl border border-outline-variant/10 shadow-sm space-y-4 relative overflow-hidden">
+        <div className="absolute top-0 left-0 bottom-0 w-2 bg-emerald-600"></div>
 
-            <div className="flex items-center justify-between pt-2 border-t border-surface-variant/30">
-              <div className="flex items-center gap-2.5">
-                <Users className="text-[#0077b6]" size={16} />
-                <span className="text-xs font-bold text-on-surface-variant">計程車/打車定位點</span>
-              </div>
-              <span className="text-xs font-bold text-primary">T2 航站樓到達層一樓外</span>
-            </div>
-          </div>
+        <div className="flex items-center gap-2 text-emerald-700 font-black text-xs uppercase tracking-wider">
+          <CreditCard size={16} />
+          <span>歐洲海關退稅 (Global Blue / Planet Tax Free)</span>
         </div>
-      </section>
 
-      {/* Railway Station Section */}
-      <section className="space-y-4">
-        <div className="flex items-end justify-between px-1">
-          <h2 className="text-2xl font-extrabold tracking-tight text-[#0e7490]">高鐵寧波站</h2>
-          <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">寧波高鐵站</span>
-        </div>
-        <div className="bg-surface-container-low rounded-2xl p-6 space-y-4 border border-outline-variant/10">
-          <h3 className="text-xl font-bold text-on-surface flex items-center gap-2">
-            <Train className="text-[#0e7490]" size={20} />
-            寧波高鐵南站
-          </h3>
-          <p className="text-sm text-on-surface-variant leading-relaxed">
-            位於寧波市中心，是連接上海、杭州、溫州、福州等高鐵大動脈的核心樞紐站。
-          </p>
-          <div className="grid grid-cols-2 gap-3 pt-2">
-            <div className="bg-white p-3.5 rounded-xl border border-outline-variant/10 shadow-sm">
-              <p className="text-[10px] font-bold text-outline uppercase mb-1">地鐵換乘</p>
-              <p className="text-xs font-bold text-on-surface">地鐵 2 號線、4 號線</p>
-            </div>
-            <div className="bg-white p-3.5 rounded-xl border border-outline-variant/10 shadow-sm">
-              <p className="text-[10px] font-bold text-outline uppercase mb-1">出站打車</p>
-              <p className="text-xs font-bold text-on-surface">南、北廣場地下出租車候車區</p>
-            </div>
-          </div>
-          
-          <div className="bg-[#0e7490]/5 rounded-xl p-4 border border-[#0e7490]/10 flex items-start gap-3">
-            <Info className="text-[#0e7490] shrink-0 mt-0.5" size={16} />
-            <p className="text-xs text-on-surface-variant leading-relaxed">
-              <span className="font-bold text-on-surface">高鐵購票提示：</span>中國大陸高鐵全面實行電子客票，憑預訂證件（如台胞證、回鄉证、身份證或護照）直接刷證件進站乘車，無需兌換紙質車票。建議使用「鐵路12306」官方App購票最為安全快捷。
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Payment and Transit tips */}
-      <section className="bg-white px-6 py-6 rounded-2xl border border-outline-variant/10 shadow-sm space-y-4">
-        <h3 className="text-lg font-bold text-on-surface flex items-center gap-2 text-primary">
-          <ShieldCheck size={20} />
-          快捷支付與乘車碼
-        </h3>
+        <h3 className="text-xl font-black text-on-surface">米蘭 MXP / 羅馬 FCO 退稅 Step-by-Step</h3>
         <p className="text-xs text-on-surface-variant leading-relaxed">
-          寧波市公共交通極其發達，完全無需購買實體票卡。推薦以下兩種最方便的出行方案：
+          義大利退稅門檻為單店消費滿 €70 起即可索取退稅單。在離開歐盟的最後一座機場（米蘭 MXP 或 羅馬 FCO）辦理退稅手續：
         </p>
-        <div className="space-y-3">
-          <div className="flex gap-3 items-start">
-            <div className="bg-emerald-50 text-emerald-600 p-2 rounded-lg text-xs font-bold shrink-0 mt-0.5">支付寶</div>
-            <p className="text-xs text-on-surface-variant leading-relaxed">
-              打開 <span className="font-bold text-on-surface">支付寶 (Alipay)</span> App ➜ 點擊首頁「出行」➜ 選擇「寧波地鐵乘車碼 / 公交乘車碼」➜ 刷碼即可秒速進站乘車，非常便捷。
+
+        <div className="space-y-3 text-xs">
+          <div className="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-1">
+            <span className="font-extrabold text-emerald-900 block">Step 1: 購物索取單據</span>
+            <p className="text-emerald-800">結帳時出示護照，要求開立 Tax Free Form（填妥英文姓名、護照號碼與信用卡號）。</p>
+          </div>
+
+          <div className="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-1">
+            <span className="font-extrabold text-emerald-900 block">Step 2: 機場海關蓋章 / 電子驗證 (Otello 系統)</span>
+            <p className="text-emerald-800">辦理登機手續並託運行李前，至 Customs Tax Free 機器掃描護照與退稅單 QRCode（大部分單據可直接免人工蓋章自動審核通過）。</p>
+          </div>
+
+          <div className="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-1">
+            <span className="font-extrabold text-emerald-900 block">Step 3: 投遞或領取退稅款</span>
+            <p className="text-emerald-800">選擇退回信用卡（約 5-10 個工作天入帳，最推薦）或至 Global Blue / Planet 櫃檯領取現金歐元。</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Major Airports */}
+      <section className="bg-surface-container-lowest p-5 rounded-3xl border border-outline-variant/10 shadow-sm space-y-4">
+        <h3 className="text-lg font-black text-on-surface flex items-center gap-2">
+          <Plane className="text-primary" size={18} />
+          主要機場交通接駁
+        </h3>
+
+        <div className="space-y-3 text-xs">
+          <div className="p-4 bg-surface-container-high/40 rounded-2xl space-y-1">
+            <span className="font-black text-on-surface text-sm block">羅馬菲烏米奇諾機場 (FCO) ✈ 市區</span>
+            <p className="text-on-surface-variant leading-relaxed">
+              搭乘 <strong>Leonardo Express 機場快線</strong>，每 15 分鐘一班，32 分鐘無停靠直達 Roma Termini 中央車站（單程 €14）。
             </p>
           </div>
-          <div className="flex gap-3 items-start">
-            <div className="bg-[#0077b6]/5 text-primary p-2 rounded-lg text-xs font-bold shrink-0 mt-0.5">微信</div>
-            <p className="text-xs text-on-surface-variant leading-relaxed">
-              打開 <span className="font-bold text-on-surface">微信 (WeChat)</span> App ➜ 搜索小程序「騰訊出行碼」➜ 領取「寧波地鐵/公交乘車碼」即可。
+
+          <div className="p-4 bg-surface-container-high/40 rounded-2xl space-y-1">
+            <span className="font-black text-on-surface text-sm block">米蘭馬爾彭薩機場 (MXP) ✈ 市區</span>
+            <p className="text-on-surface-variant leading-relaxed">
+              搭乘 <strong>Malpensa Express 機場快線</strong>，約 50 分鐘直達 Milano Centrale 中央車站或 Milano Cadorna 站（單程 €13）。
+            </p>
+          </div>
+
+          <div className="p-4 bg-surface-container-high/40 rounded-2xl space-y-1">
+            <span className="font-black text-on-surface text-sm block">杜布羅夫尼克機場 (DBV) ✈ 古城</span>
+            <p className="text-on-surface-variant leading-relaxed">
+              搭乘 Platanus 機場接駁巴士，約 35 分鐘到達古城派勒門 (Pile Gate) 或巴士總站（單程約 €10）。
             </p>
           </div>
         </div>

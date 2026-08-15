@@ -30,15 +30,15 @@ export function TopBar() {
 
   const getTitle = (path: string) => {
     if (path.startsWith('/itinerary')) {
-      const dates = ['7/28 第一天', '7/29 第二天', '7/30 第三天', '7/31 第四天', '8/1 第五天'];
-      return (dates[dayIndex] || '行程') + ' 行程';
+      return '義大利 & 克羅埃西亞每日行程';
     }
-    if (path.startsWith('/car-rental')) return '交通指引';
-    if (path.startsWith('/parking')) return '實用小貼士';
-    if (path.startsWith('/airport-info')) return '機場與高鐵';
-    if (path.startsWith('/accommodation')) return '住宿推薦';
-    if (path.startsWith('/flights')) return '交通票務';
-    if (path.startsWith('/budget')) return '旅行記帳';
+    if (path.startsWith('/car-rental')) return '租車自駕與跨國交通';
+    if (path.startsWith('/parking')) return 'ZTL 禁行區與停車須知';
+    if (path.startsWith('/airport-info')) return '機場退稅與申根通關';
+    if (path.startsWith('/accommodation')) return '義克精選精品飯店';
+    if (path.startsWith('/flights')) return '國際與區域航班';
+    if (path.startsWith('/budget')) return '旅行記帳與分攤';
+    if (path.startsWith('/todos')) return '行前準備與備忘清單';
     return '詳情';
   };
 
@@ -55,7 +55,7 @@ export function TopBar() {
           </button>
         )}
         <h1 className="font-extrabold tracking-tight text-lg text-on-surface">
-          {isHome ? '寧波之旅' : getTitle(location.pathname)}
+          {isHome ? '義大利 & 克羅埃西亞 🇮🇹🇭🇷' : getTitle(location.pathname)}
         </h1>
       </div>
       
@@ -68,10 +68,10 @@ export function TopBar() {
       {isHome && (
         <button 
           onClick={() => navigate('/budget')}
-          className="flex flex-col items-end px-4 py-2 bg-primary/5 rounded-2xl border border-primary/10 active:scale-95 transition-all shadow-sm"
+          className="flex flex-col items-end px-3.5 py-1.5 bg-primary/5 rounded-2xl border border-primary/10 active:scale-95 transition-all shadow-sm"
         >
-          <span className="text-[10px] font-bold text-primary uppercase tracking-tighter">公積金餘額</span>
-          <span className="text-sm font-black text-primary leading-tight">¥ {balance.toLocaleString()}</span>
+          <span className="text-[10px] font-bold text-primary uppercase tracking-tighter">旅費公積金</span>
+          <span className="text-xs font-black text-primary leading-tight">€ {balance.toLocaleString()} (NT$ {(balance * 35).toLocaleString()})</span>
         </button>
       )}
     </header>

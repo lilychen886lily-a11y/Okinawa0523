@@ -44,7 +44,7 @@ service cloud.firestore {
         && data.date is string && data.date.size() <= 50
         && data.addedBy is string && data.addedBy.size() <= 100
         && data.payer is string && data.payer.size() <= 100
-        && data.splitWith is list && data.splitWith.size() <= 3;
+        && data.splitWith is list && data.splitWith.size() <= 15;
     }
   }
 }

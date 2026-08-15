@@ -26,14 +26,15 @@ interface Transaction {
   splitWith: string[];
 }
 
-const MEMBERS = ['昱惠', '小驊', '小花'];
+const MEMBERS = ['小許', '春香', '麗安', '頭家娘', '小花'];
+const PAYERS = ['小花', '小許', '春香', '麗安', '頭家娘'];
 
 const CATEGORIES = [
   { label: '餐飲美食', value: 'Food', color: 'bg-orange-100 text-orange-700 border-orange-200' },
   { label: '交通接駁', value: 'Transit', color: 'bg-blue-100 text-blue-700 border-blue-200' },
-  { label: '奢華住宿', value: 'Stay', color: 'bg-teal-100 text-teal-700 border-teal-200' },
-  { label: '景點玩樂', value: 'Play', color: 'bg-purple-100 text-purple-700 border-purple-200' },
-  { label: '購物手信', value: 'Shopping', color: 'bg-pink-100 text-pink-700 border-pink-200' },
+  { label: '飯店住宿', value: 'Stay', color: 'bg-teal-100 text-teal-700 border-teal-200' },
+  { label: '景點門票', value: 'Play', color: 'bg-purple-100 text-purple-700 border-purple-200' },
+  { label: '購物紀念', value: 'Shopping', color: 'bg-pink-100 text-pink-700 border-pink-200' },
   { label: '其他雜項', value: 'Others', color: 'bg-gray-100 text-gray-700 border-gray-200' },
 ];
 
@@ -71,8 +72,8 @@ function handleFirestoreError(error: unknown, operationType: OperationType, path
 }
 
 function cleanAmountInput(val: string): string {
-  // Strip currency symbols (¥, ￥, $, NT$, etc.) and common separators (commas, spaces, letters)
-  let cleaned = val.replace(/[¥￥$nNtT\s,]/gi, '');
+  // Strip currency symbols (€, ¥, ￥, $, NT$, etc.) and common separators (commas, spaces, letters)
+  let cleaned = val.replace(/[€¥￥$nNtT\s,]/gi, '');
   // Ensure we only allow one decimal point
   const parts = cleaned.split('.');
   if (parts.length > 2) {
@@ -97,7 +98,7 @@ export function Budget() {
   const [category, setCategory] = useState('Food');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(() => new Date().toISOString().split('T')[0]);
-  const [payer, setPayer] = useState('昱惠');
+  const [payer, setPayer] = useState('小花');
   const [splitWith, setSplitWith] = useState<string[]>(MEMBERS);
 
   // Editing state
@@ -128,7 +129,7 @@ export function Budget() {
             description: data.description || '',
             date: data.date || '',
             addedBy: data.addedBy || '',
-            payer: data.payer || '昱惠',
+            payer: data.payer || '小花',
             splitWith: data.splitWith || MEMBERS,
           });
         });
@@ -178,6 +179,7 @@ export function Budget() {
       setAmount('');
       setDescription('');
       setType('expense');
+      setPayer('小花');
       setSplitWith(MEMBERS);
     } catch (error) {
       try {
@@ -378,13 +380,11 @@ export function Budget() {
   };
 
   // Calculations for dashboard
-  // Paid: total money paid out of pocket by each member
   const memberPaid = MEMBERS.reduce((acc, m) => {
     acc[m] = 0;
     return acc;
   }, {} as Record<string, number>);
 
-  // Should pay: sum of shares for each member
   const memberShouldPay = MEMBERS.reduce((acc, m) => {
     acc[m] = 0;
     return acc;
@@ -393,23 +393,19 @@ export function Budget() {
   let totalExpenses = 0;
 
   transactions.forEach((t) => {
-    if (t.type === 'expense') {
-      // Add to payer's total paid
-      if (MEMBERS.includes(t.payer)) {
-        memberPaid[t.payer] += t.amount;
-      }
-      totalExpenses += t.amount;
+    totalExpenses += t.amount;
+    if (MEMBERS.includes(t.payer)) {
+      memberPaid[t.payer] += t.amount;
+    }
 
-      // Calculate share
-      const sharersCount = t.splitWith.length;
-      if (sharersCount > 0) {
-        const shareAmount = t.amount / sharersCount;
-        t.splitWith.forEach((sharer) => {
-          if (MEMBERS.includes(sharer)) {
-            memberShouldPay[sharer] += shareAmount;
-          }
-        });
-      }
+    const sharersCount = t.splitWith.length;
+    if (sharersCount > 0) {
+      const shareAmount = t.amount / sharersCount;
+      t.splitWith.forEach((sharer) => {
+        if (MEMBERS.includes(sharer)) {
+          memberShouldPay[sharer] += shareAmount;
+        }
+      });
     }
   });
 
@@ -475,11 +471,8 @@ export function Budget() {
 
       {/* Header text */}
       <div className="space-y-2">
-        <h2 className="text-3xl font-extrabold text-primary tracking-tight">旅行記帳與分攤</h2>
-        <p className="text-xs font-bold text-outline tracking-wider uppercase">旅行預算與分攤</p>
-        <p className="text-sm text-on-surface-variant leading-relaxed font-medium">
-          專為本行程設計的多人記帳與平分系統。輸入每筆共同花費與付款人，系統將自動精算 <span className="font-semibold text-primary">昱惠、小驊、小花</span> 的已付/應付額，並提供極簡轉帳方案。
-        </p>
+        <h2 className="text-3xl font-extrabold text-primary tracking-tight">旅行記帳</h2>
+        <p className="text-xs font-bold text-outline tracking-wider uppercase">行程費用紀錄</p>
       </div>
 
       {errorMessage && (
@@ -490,119 +483,16 @@ export function Budget() {
       )}
 
       {/* Dashboard Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {/* Card: Total Expenses */}
-        <div className="bg-surface-container-high rounded-2xl p-5 border border-outline-variant/15 flex flex-col justify-between shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-8 -mt-8"></div>
-          <div className="flex justify-between items-start z-10">
-            <span className="text-[11px] font-bold text-outline uppercase tracking-wider">行程總支出 (CNY)</span>
-            <Wallet className="text-primary" size={20} />
-          </div>
-          <div className="mt-4 z-10">
-            <span className="text-3xl font-extrabold text-on-surface">¥ {totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</span>
-            <p className="text-[10px] text-on-surface-variant mt-1.5 font-medium">基於所有已錄入的實際支出統計</p>
-          </div>
+      <div className="bg-surface-container-high rounded-2xl p-5 border border-outline-variant/15 flex justify-between items-center shadow-sm relative overflow-hidden">
+        <div>
+          <span className="text-[11px] font-bold text-outline uppercase tracking-wider block">行程總支出 (EUR)</span>
+          <span className="text-3xl font-extrabold text-on-surface mt-1 block">€ {totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</span>
+          <p className="text-[10px] text-on-surface-variant mt-1 font-medium">所有共同費用之總計金額</p>
         </div>
-
-        {/* Individual Balances */}
-        {MEMBERS.map((m) => {
-          const balance = memberBalances[m] || 0;
-          const paid = memberPaid[m] || 0;
-          const shouldPay = memberShouldPay[m] || 0;
-          const isCreditor = balance > 0.05;
-          const isDebtor = balance < -0.05;
-
-          return (
-            <div 
-              key={m} 
-              className={cn(
-                "bg-surface-container-low rounded-2xl p-5 border transition-all duration-300 relative overflow-hidden",
-                isCreditor ? "border-emerald-500/15 bg-emerald-50/10" : "",
-                isDebtor ? "border-amber-500/15 bg-amber-50/10" : "border-outline-variant/10"
-              )}
-            >
-              <div className="flex justify-between items-start">
-                <div>
-                  <h4 className="font-extrabold text-lg text-on-surface flex items-center gap-1.5">
-                    <Users size={16} className="text-outline" />
-                    {m}
-                  </h4>
-                </div>
-                <span className={cn(
-                  "text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider border",
-                  isCreditor ? "bg-emerald-100 text-emerald-800 border-emerald-200" : "",
-                  isDebtor ? "bg-amber-100 text-amber-800 border-amber-200" : "bg-gray-100 text-gray-700 border-gray-200"
-                )}>
-                  {isCreditor ? '應收回' : isDebtor ? '應補繳' : '已平分'}
-                </span>
-              </div>
-
-              <div className="mt-4 space-y-1">
-                <div className="flex justify-between text-xs text-on-surface-variant">
-                  <span>已付款</span>
-                  <span className="font-bold text-on-surface">¥ {paid.toFixed(1)}</span>
-                </div>
-                <div className="flex justify-between text-xs text-on-surface-variant">
-                  <span>應分攤</span>
-                  <span className="font-bold text-on-surface">¥ {shouldPay.toFixed(1)}</span>
-                </div>
-                <div className="border-t border-outline-variant/20 my-2 pt-1.5 flex justify-between items-center">
-                  <span className="text-[11px] font-bold text-outline">結算差額</span>
-                  <span className={cn(
-                    "text-base font-extrabold",
-                    isCreditor ? "text-emerald-600" : isDebtor ? "text-amber-600" : "text-on-surface-variant"
-                  )}>
-                    {balance > 0 ? `+¥ ${balance.toFixed(1)}` : `¥ ${balance.toFixed(1)}`}
-                  </span>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+          <Wallet size={24} />
+        </div>
       </div>
-
-      {/* Settlement Recommendation Box */}
-      <section className="bg-surface-container-high rounded-2xl p-6 border border-outline-variant/20 shadow-sm">
-        <div className="flex items-center gap-2.5 text-[#00677d] mb-4">
-          <PieChart size={22} />
-          <h3 className="font-extrabold text-lg">極簡轉帳結算方案</h3>
-        </div>
-
-        {settlements.length === 0 ? (
-          <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-xl p-5 text-center text-sm font-medium text-emerald-800">
-            🎉 完美！所有帳目已結清，目前無人欠款。
-          </div>
-        ) : (
-          <div className="space-y-4">
-            <p className="text-xs text-on-surface-variant leading-relaxed">
-              系統已採用「最少次數轉帳演算法」，計算出以下最優結算路線。大家僅需按照下方提示相互轉帳，即可一鍵結清所有共同費用：
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {settlements.map((s, idx) => (
-                <div 
-                  key={idx} 
-                  className="bg-white border border-outline-variant/25 rounded-xl p-4 flex items-center justify-between shadow-xs hover:border-[#00677d]/35 transition-all"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-xs border border-amber-100">
-                      給
-                    </div>
-                    <div>
-                      <p className="text-xs text-on-surface-variant font-medium">
-                        <span className="font-bold text-on-surface text-sm">{s.from}</span> 應轉帳給
-                      </p>
-                      <p className="text-xs text-[#00677d] font-bold">向 {s.to} 發起微信/支付寶/現金</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-lg font-black text-[#00677d]">¥ {s.amount}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </section>
 
       {/* Two Column Layout for Add & List */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -620,9 +510,9 @@ export function Budget() {
             <form onSubmit={handleAddTransaction} className="space-y-4 pt-1">
             {/* Amount */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-outline uppercase">金額 (人民幣 / 新台幣)</label>
+              <label className="text-[11px] font-bold text-outline uppercase">金額 (€ 歐元)</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold text-sm">¥</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold text-sm">€</span>
                 <input 
                   type="text" 
                   inputMode="decimal"
@@ -635,32 +525,24 @@ export function Budget() {
               </div>
             </div>
 
-            {/* Payer (Who paid) */}
+            {/* Category selection */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-outline uppercase">付款人</label>
-              <div className="grid grid-cols-3 gap-2">
-                {MEMBERS.map((m) => (
-                  <button
-                    key={m}
-                    type="button"
-                    onClick={() => setPayer(m)}
-                    className={cn(
-                      "py-2 px-3 rounded-xl border text-xs font-bold transition-all",
-                      payer === m 
-                        ? "bg-primary text-white border-primary shadow-xs" 
-                        : "bg-white text-on-surface-variant border-outline-variant/40 hover:bg-surface-container-high"
-                    )}
-                  >
-                    {m}
-                  </button>
+              <label className="text-[11px] font-bold text-outline uppercase">消費種類</label>
+              <select 
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full bg-white border border-outline-variant/40 rounded-xl py-2.5 px-3.5 text-xs font-bold text-on-surface focus:outline-none focus:border-primary"
+              >
+                {CATEGORIES.map((cat) => (
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
                 ))}
-              </div>
+              </select>
             </div>
 
             {/* Split With (Who shares) */}
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
-                <label className="text-[11px] font-bold text-outline uppercase">分攤人</label>
+                <label className="text-[11px] font-bold text-outline uppercase">分攤成員 (分攤人)</label>
                 <button 
                   type="button" 
                   onClick={() => setSplitWith(splitWith.length === MEMBERS.length ? [] : MEMBERS)}
@@ -678,7 +560,7 @@ export function Budget() {
                       type="button"
                       onClick={() => handleSplitToggle(m, false)}
                       className={cn(
-                        "py-2 px-3 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-1",
+                        "py-2 px-2 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-1",
                         selected 
                           ? "bg-primary-container text-on-primary-container border-primary/20" 
                           : "bg-white text-on-surface-variant border-outline-variant/40 opacity-60 hover:bg-surface-container-high"
@@ -690,20 +572,6 @@ export function Budget() {
                   );
                 })}
               </div>
-            </div>
-
-            {/* Category selection */}
-            <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-outline uppercase">消費種類</label>
-              <select 
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-white border border-outline-variant/40 rounded-xl py-2.5 px-3.5 text-xs font-bold text-on-surface focus:outline-none focus:border-primary"
-              >
-                {CATEGORIES.map((cat) => (
-                  <option key={cat.value} value={cat.value}>{cat.label}</option>
-                ))}
-              </select>
             </div>
 
             {/* Date */}
@@ -817,35 +685,20 @@ export function Budget() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3">
-                          <div className="space-y-1">
-                            <label className="text-[10px] font-bold text-outline">付款人</label>
-                            <select 
-                              value={editPayer}
-                              onChange={(e) => setEditPayer(e.target.value)}
-                              className="w-full bg-white border border-outline-variant/40 rounded-lg p-2 text-xs font-bold text-on-surface"
-                            >
-                              {MEMBERS.map(m => (
-                                <option key={m} value={m}>{m}</option>
-                              ))}
-                            </select>
-                          </div>
-
-                          <div className="space-y-1">
-                            <label className="text-[10px] font-bold text-outline">日期</label>
-                            <input 
-                              type="date" 
-                              value={editDate}
-                              onChange={(e) => setEditDate(e.target.value)}
-                              className="w-full bg-white border border-outline-variant/40 rounded-lg p-2 text-xs text-on-surface"
-                            />
-                          </div>
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold text-outline">日期</label>
+                          <input 
+                            type="date" 
+                            value={editDate}
+                            onChange={(e) => setEditDate(e.target.value)}
+                            className="w-full bg-white border border-outline-variant/40 rounded-lg p-2 text-xs text-on-surface"
+                          />
                         </div>
 
                         {/* Edit Split With */}
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-outline block">分攤人</label>
-                          <div className="flex gap-2">
+                          <label className="text-[10px] font-bold text-outline block">分攤成員 (分攤人)</label>
+                          <div className="flex flex-wrap gap-2">
                             {MEMBERS.map((m) => {
                               const checked = editSplitWith.includes(m);
                               return (
@@ -854,7 +707,7 @@ export function Budget() {
                                   type="button"
                                   onClick={() => handleSplitToggle(m, true)}
                                   className={cn(
-                                    "px-3 py-1.5 rounded-lg border text-xs font-bold transition-all",
+                                    "px-2.5 py-1 rounded-lg border text-xs font-bold transition-all",
                                     checked 
                                       ? "bg-primary-container text-on-primary-container border-primary/20" 
                                       : "bg-white text-on-surface-variant border-outline-variant/40 opacity-50"
@@ -919,25 +772,25 @@ export function Budget() {
                               {t.date}
                             </span>
                           </div>
-                          
-                          <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-[11px] text-on-surface-variant">
-                            <span className="font-bold text-[#00677d] bg-[#00677d]/5 px-2 py-0.5 rounded border border-[#00677d]/10">
-                              {t.payer} 買單
-                            </span>
-                            <span className="text-outline">
+                          {t.splitWith && t.splitWith.length > 0 && (
+                            <p className="text-[11px] text-on-surface-variant font-medium">
                               分攤人：<span className="font-semibold text-on-surface">{t.splitWith.join('、')}</span>
-                            </span>
-                          </div>
+                            </p>
+                          )}
                         </div>
                       </div>
 
                       {/* Right Action buttons */}
                       <div className="flex items-center gap-3.5">
                         <div className="text-right">
-                          <span className="text-base font-black text-on-surface">¥ {t.amount}</span>
-                          <p className="text-[9px] text-on-surface-variant/70 font-semibold mt-0.5">
-                            人均 ¥ {(t.amount / (t.splitWith.length || 1)).toFixed(1)}
-                          </p>
+                          <span className="text-base font-black text-on-surface">
+                            € {t.amount}
+                          </span>
+                          {t.splitWith && t.splitWith.length > 0 && (
+                            <p className="text-[9px] text-on-surface-variant/70 font-semibold mt-0.5">
+                              人均 € {(t.amount / t.splitWith.length).toFixed(1)}
+                            </p>
+                          )}
                         </div>
 
                         <div className="flex items-center gap-1 border-l border-outline-variant/10 pl-3">

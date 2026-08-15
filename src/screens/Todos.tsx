@@ -23,7 +23,7 @@ interface TodoItem {
   addedBy: string;
 }
 
-const MEMBERS = ['昱惠', '小驊', '小花'];
+const MEMBERS = ['小許', '春香', '麗安', '小花', '頭家娘'];
 
 const CATEGORIES = [
   { label: '準備物品', value: 'Packing', color: 'bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900/30' },
@@ -168,6 +168,51 @@ export function Todos() {
     }
   };
 
+  const handleSeedDefaultTodos = async () => {
+    setIsSubmitting(true);
+    setErrorMessage(null);
+    const defaults = [
+      { title: '檢查護照效期 (至少 6 個月以上)', category: 'Docs', assignee: '全員', date: '09/15' },
+      { title: '申購申根醫療保險 (包含 30,000 歐元保額與列印英文證明)', category: 'Docs', assignee: '全員', date: '09/20' },
+      { title: '申辦國際駕照 (IDP) + 攜帶台灣駕照正本', category: 'Docs', assignee: '駕駛員', date: '09/20' },
+      { title: '預約門票：梵蒂岡美術館 & 西斯汀禮拜堂', category: 'Life', assignee: '小驊', date: '09/10' },
+      { title: '預約門票：古羅馬競技場 (Colosseum) 地下通道', category: 'Life', assignee: '昱惠', date: '09/10' },
+      { title: '預約門票：達文西《最後的晚餐》修道院入場券', category: 'Life', assignee: '小花', date: '09/01' },
+      { title: '預約門票：十六湖國家公園 (Plitvice Lakes) Entrance 1', category: 'Life', assignee: '小驊', date: '09/15' },
+      { title: '購買斯洛維尼亞公路 e-Vignette 電子通行證', category: 'Docs', assignee: '駕駛員', date: '09/25' },
+      { title: '換匯歐元現鈔 (EUR) & 設定高海外回饋雙幣信用卡', category: 'Life', assignee: '全員', date: '09/22' },
+      { title: '購買歐洲跨國 5G eSIM / SIM 卡 (吃到飽)', category: 'Packing', assignee: '全員', date: '09/25' },
+      { title: '準備歐洲規格圓柱轉接頭 (Type C/F/L) & 行動電源', category: 'Packing', assignee: '全員', date: '09/26' },
+      { title: '確認租車合約包含「Cross Border Green Card 跨國保險綠卡」', category: 'Docs', assignee: '駕駛員', date: '09/26' },
+    ];
+
+    try {
+      const promises = defaults.map(item => addDoc(collection(db, 'todos'), {
+        ...item,
+        completed: false,
+        addedBy: 'System'
+      }));
+      await Promise.all(promises);
+    } catch (err) {
+      setErrorMessage('初始化預設清單失敗');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleClearAllTodos = async () => {
+    if (todos.length === 0) return;
+    if (!window.confirm('⚠️ 確定要清空所有的待辦事項嗎？此動作將無法復原。')) return;
+    setErrorMessage(null);
+    try {
+      const deletePromises = todos.map(todo => deleteDoc(doc(db, 'todos', todo.id)));
+      await Promise.all(deletePromises);
+    } catch (err) {
+      handleFirestoreError(err, OperationType.DELETE, 'todos/all');
+      setErrorMessage('清空待辦事項失敗');
+    }
+  };
+
   // Filtering logic
   const filteredTodos = todos.filter(todo => {
     const matchesStatus = 
@@ -193,17 +238,37 @@ export function Todos() {
   return (
     <div className="mt-20 px-4 pb-44 max-w-3xl mx-auto">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
-        <button 
-          onClick={() => navigate('/')}
-          className="p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/10 shadow-sm hover:bg-surface-container-low transition-colors"
-        >
-          <ChevronLeft size={20} className="text-on-surface" />
-        </button>
-        <div>
-          <h1 className="text-2xl font-black text-[#0d9488] tracking-tight">行前待辦事項</h1>
-          <p className="text-[11px] text-on-surface-variant font-medium">群組成員協同準備清單</p>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => navigate('/')}
+            className="p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/10 shadow-sm hover:bg-surface-container-low transition-colors"
+          >
+            <ChevronLeft size={20} className="text-on-surface" />
+          </button>
+          <div>
+            <h1 className="text-2xl font-black text-[#0d9488] tracking-tight">行前待辦事項</h1>
+            <p className="text-[11px] text-on-surface-variant font-medium">群組成員協同準備清單</p>
+          </div>
         </div>
+
+        {todos.length > 0 ? (
+          <button
+            onClick={handleClearAllTodos}
+            className="flex items-center gap-1.5 text-xs text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 px-3 py-1.5 rounded-xl font-bold transition-colors"
+          >
+            <Trash2 size={14} />
+            清空所有
+          </button>
+        ) : (
+          <button
+            onClick={handleSeedDefaultTodos}
+            className="flex items-center gap-1.5 text-xs text-[#0d9488] bg-[#0d9488]/10 hover:bg-[#0d9488]/20 border border-[#0d9488]/30 px-3 py-1.5 rounded-xl font-extrabold transition-colors"
+          >
+            <Plus size={14} />
+            載入行前建議清單
+          </button>
+        )}
       </div>
 
       {/* Error Message */}

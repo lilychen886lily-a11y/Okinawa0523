@@ -1,6 +1,6 @@
 {
-  "name": "寧波旅行行程與記帳系統",
-  "description": "寧波精選五天四夜經典旅遊與行程規劃指南，提供每日行程地標導航、交通地鐵指引、精選住宿詳情以及多人即時共同記帳與極簡轉帳結算系統。",
+  "name": "義大利 & 克羅埃西亞",
+  "description": "2026/09/27 - 10/23 義大利與克羅埃西亞自由行規劃。涵蓋羅馬、佛羅倫斯、威尼斯、十六湖國家公園、斯普利特、杜布羅夫尼克每日行程、飯店住宿、租車自駕交通指引、記帳與行前清單。",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

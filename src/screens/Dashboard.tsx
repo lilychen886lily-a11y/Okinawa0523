@@ -1,95 +1,52 @@
-import { useState, useEffect } from 'react';
-import { Sun, Cloud, CloudRain, CloudSun, CloudLightning, Plane, Hotel, Train, Calendar, ChevronRight, ExternalLink, Wallet, ClipboardList } from 'lucide-react';
+import { Plane, Hotel, Car, Calendar, ChevronRight, ExternalLink, Wallet, ClipboardList, ShieldAlert, Navigation } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 export function Dashboard() {
   const navigate = useNavigate();
-  const [weather, setWeather] = useState<{ temp: number; description: string; icon: any } | null>(null);
-
-  useEffect(() => {
-    // Fetch Weather (Ningbo, Zhejiang: 29.8683, 121.5440)
-    const fetchWeather = async () => {
-      try {
-        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=29.8683&longitude=121.5440&current=temperature_2m,weather_code');
-        const data = await res.json();
-        
-        const code = data.current.weather_code;
-        let description = '晴朗';
-        let WeatherIcon = Sun;
-
-        if (code === 0) { description = '晴朗'; WeatherIcon = Sun; }
-        else if (code <= 3) { description = '多雲'; WeatherIcon = CloudSun; }
-        else if (code <= 48) { description = '有霧'; WeatherIcon = Cloud; }
-        else if (code <= 65 || (code >= 80 && code <= 82)) { description = '下雨'; WeatherIcon = CloudRain; }
-        else if (code >= 95) { description = '雷雨'; WeatherIcon = CloudLightning; }
-        else { description = '多雲'; WeatherIcon = Cloud; }
-
-        setWeather({
-          temp: Math.round(data.current.temperature_2m),
-          description,
-          icon: WeatherIcon
-        });
-      } catch (error) {
-        console.error('Failed to fetch weather:', error);
-      }
-    };
-
-    fetchWeather();
-  }, []);
-
-  const WeatherIcon = weather?.icon || Sun;
 
   return (
-    <div className="mt-20 px-4 pb-44">
-      <section className="mb-8 px-2">
-        <h2 className="text-on-surface text-3xl font-extrabold tracking-tight mb-2">寧波，我們來啦</h2>
-        <div className="flex items-center gap-2 text-on-surface-variant font-medium">
-          <Calendar size={14} />
-          <span className="text-sm">2026/07/28 - 08/01</span>
+    <div className="mt-20 px-4 pb-44 max-w-3xl mx-auto">
+      {/* Banner / Hero section */}
+      <section className="mb-6 p-5 bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm space-y-3">
+        <div className="flex justify-between items-start">
+          <div>
+            <span className="text-primary font-black text-[11px] uppercase tracking-widest block">27 天尊榮漫遊</span>
+            <h2 className="text-on-surface text-2xl font-black tracking-tight">義大利 & 克羅埃西亞</h2>
+            <div className="flex items-center gap-2 text-on-surface-variant font-bold text-xs mt-1">
+              <Calendar size={14} className="text-primary" />
+              <span>2026/09/27 - 2026/10/23 (共 27 天)</span>
+            </div>
+          </div>
+          <span className="px-2.5 py-1 bg-primary/10 text-primary font-extrabold text-xs rounded-xl">
+            全員 5 人
+          </span>
+        </div>
+
+        {/* Departure batches overview */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-outline-variant/10 text-xs">
+          <div 
+            onClick={() => navigate('/flights/BR95')}
+            className="p-3 bg-blue-50/70 dark:bg-blue-950/20 rounded-2xl border border-blue-100 dark:border-blue-900/30 cursor-pointer hover:bg-blue-100/60 transition-colors"
+          >
+            <span className="text-[10px] font-black uppercase text-blue-700 dark:text-blue-400 block">第一批出發 (9/27 長榮 BR95)</span>
+            <p className="font-extrabold text-on-surface text-xs mt-0.5">小許、春香、麗安</p>
+            <span className="text-[10px] text-blue-600 dark:text-blue-300">直飛米蘭 (MXP) ➜ 前往羅馬/威尼斯</span>
+          </div>
+          <div 
+            onClick={() => navigate('/flights/CX423')}
+            className="p-3 bg-amber-50/70 dark:bg-amber-950/20 rounded-2xl border border-amber-100 dark:border-amber-900/30 cursor-pointer hover:bg-amber-100/60 transition-colors"
+          >
+            <span className="text-[10px] font-black uppercase text-amber-700 dark:text-amber-400 block">第二批出發 (10/5 高雄/卡達聯程)</span>
+            <p className="font-extrabold text-on-surface text-xs mt-0.5">小花、頭家娘</p>
+            <span className="text-[10px] text-amber-600 dark:text-amber-300">10/6 薩格勒布 (ZAG) 全員大會合</span>
+          </div>
         </div>
       </section>
 
-      <div className="grid grid-cols-1 gap-4 mb-6">
-        {/* Weather Card */}
-        <a 
-          href="https://www.accuweather.com/zh/cn/ningbo/105342/weather-forecast/105342" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="bg-surface-container-lowest p-5 rounded-2xl flex flex-col justify-between border border-outline-variant/10 shadow-sm transition-transform active:scale-95"
-        >
-          <div className="flex justify-between items-start mb-4">
-            <span className="text-on-surface-variant font-semibold text-xs uppercase tracking-wider">寧波天氣</span>
-            <WeatherIcon className="text-secondary fill-secondary/20" size={20} />
-          </div>
-          <div>
-            <div className="text-3xl font-bold text-on-surface">{weather ? `${weather.temp}°C` : '--°C'}</div>
-            <div className="text-[11px] text-on-surface-variant font-medium">寧波 {weather?.description || '載入中...'}</div>
-          </div>
-        </a>
-      </div>
-
-      <div className="grid grid-cols-1 gap-4">
-        <NavButton 
-          icon={Plane} 
-          label="交通票務" 
-          color="bg-[#0077b6]" 
-          onClick={() => navigate('/flights')} 
-          extra={<div className="flex items-center gap-1.5 opacity-70"><span className="text-[10px] font-bold text-white uppercase tracking-widest">前往</span><ExternalLink size={16} /></div>}
-        />
-        <NavButton 
-          icon={Hotel} 
-          label="住宿推薦" 
-          color="bg-[#00677d]" 
-          onClick={() => navigate('/accommodation')} 
-          />
-        <NavButton 
-          icon={Train} 
-          label="寧波地鐵指引" 
-          color="bg-[#4da3ff]" 
-          onClick={() => navigate('/car-rental')} 
-        />
+      {/* Main Navigation List */}
+      <div className="grid grid-cols-1 gap-3">
         <NavButton 
           icon={Calendar} 
           label="每日行程" 
@@ -97,16 +54,47 @@ export function Dashboard() {
           onClick={() => navigate('/itinerary')} 
         />
         <NavButton 
-          icon={ClipboardList} 
-          label="行前待辦與準備" 
+          icon={Hotel} 
+          label="飯店住宿" 
+          color="bg-[#00677d]" 
+          onClick={() => navigate('/accommodation')} 
+        />
+        <NavButton 
+          icon={Car} 
+          label="交通指南" 
           color="bg-[#0d9488]" 
+          onClick={() => navigate('/car-rental')} 
+        />
+        <NavButton 
+          icon={Plane} 
+          label="航班資訊" 
+          color="bg-[#0077b6]" 
+          onClick={() => navigate('/flights')} 
+          extra={<div className="flex items-center gap-1.5 opacity-80 text-white"><ExternalLink size={16} /></div>}
+        />
+        <NavButton 
+          icon={ClipboardList} 
+          label="行前待辦" 
+          color="bg-[#1e293b]" 
           onClick={() => navigate('/todos')} 
         />
         <NavButton 
           icon={Wallet} 
-          label="旅行記帳與分攤" 
+          label="旅行記帳" 
           color="bg-[#9d370c]" 
           onClick={() => navigate('/budget')} 
+        />
+        <NavButton 
+          icon={ShieldAlert} 
+          label="ZTL & 停車" 
+          color="bg-[#854d0e]" 
+          onClick={() => navigate('/parking')} 
+        />
+        <NavButton 
+          icon={Navigation} 
+          label="退稅指南" 
+          color="bg-[#334155]" 
+          onClick={() => navigate('/airport-info')} 
         />
       </div>
     </div>
@@ -119,19 +107,20 @@ function NavButton({ icon: Icon, label, color, onClick, extra }: any) {
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className={cn(
-        "relative block w-full h-20 rounded-2xl overflow-hidden shadow-sm transition-all duration-200",
+        "relative block w-full rounded-2xl overflow-hidden shadow-sm transition-all duration-200 p-4 text-left",
         color
       )}
     >
-      <div className="relative h-full flex items-center justify-between px-6">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+      <div className="relative h-full flex items-center justify-between">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
             <Icon className="text-white" size={20} />
           </div>
-          <span className="text-white text-lg font-bold tracking-tight">{label}</span>
+          <span className="text-white text-base font-bold tracking-tight">{label}</span>
         </div>
-        {extra ? extra : <ChevronRight className="text-white/50" size={18} />}
+        {extra ? extra : <ChevronRight className="text-white/60 shrink-0" size={20} />}
       </div>
     </motion.button>
   );
 }
+

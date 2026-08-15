@@ -1,9 +1,28 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-TW">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <title>義大利 & 克羅埃西亞 (2026/09/27 - 10/23)</title>
+    <script>
+      (function () {
+        try {
+          var _currentFetch = window.fetch;
+          Object.defineProperty(window, 'fetch', {
+            get: function () {
+              return _currentFetch;
+            },
+            set: function (fn) {
+              _currentFetch = fn;
+            },
+            configurable: true,
+            enumerable: true,
+          });
+        } catch (err) {
+          console.warn('Fetch setter patch failed:', err);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

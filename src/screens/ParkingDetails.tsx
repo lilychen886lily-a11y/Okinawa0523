@@ -1,98 +1,80 @@
-import { CalendarDays, ChevronRight, Navigation, Clock, MapPin, Phone, Info, CheckSquare, Heart, Lightbulb } from 'lucide-react';
+import { ShieldAlert, Car, MapPin, AlertCircle, Home, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { cn } from '@/lib/utils';
 
 export function ParkingDetails() {
   const navigate = useNavigate();
 
   return (
-    <div className="pb-44 pt-24 px-6 space-y-6 max-w-md mx-auto">
-      <button 
-        onClick={() => navigate('/itinerary')}
-        className="w-full py-4 px-6 bg-surface-container-lowest rounded-2xl flex items-center justify-between group active:scale-95 transition-all duration-200 shadow-sm border border-outline-variant/10"
-      >
-        <div className="flex items-center gap-3">
-          <CalendarDays className="text-primary" size={20} />
-          <span className="font-bold text-on-surface tracking-tight">返回每日行程</span>
+    <div className="mt-20 px-4 pb-44 max-w-3xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <span className="text-amber-800 font-black text-xs uppercase tracking-widest block">🇮🇹🇭🇷 駕駛安全警示</span>
+          <h1 className="text-2xl font-black text-on-surface tracking-tight">ZTL 禁行區與克國停車規範</h1>
         </div>
-        <ChevronRight className="text-outline-variant group-hover:translate-x-1 transition-transform" size={18} />
-      </button>
-
-      {/* Header Description */}
-      <div className="space-y-1">
-        <h2 className="text-3xl font-extrabold text-primary tracking-tight">寧波旅遊實用小貼士</h2>
-        <p className="text-xs font-bold text-outline tracking-wider uppercase">旅遊貼士與準備清單</p>
+        <button 
+          onClick={() => navigate('/')}
+          className="p-2.5 rounded-2xl bg-surface-container-lowest border border-outline-variant/10 shadow-sm hover:bg-surface-container-low transition-colors"
+        >
+          <Home size={18} className="text-on-surface" />
+        </button>
       </div>
 
-      {/* Weather Reminder */}
-      <section className="bg-primary/5 p-5 rounded-2xl flex items-start gap-4 border border-primary/10">
-        <div className="bg-primary p-2.5 rounded-xl shrink-0 text-white">
-          <Clock size={20} />
+      {/* ZTL Italy Warning */}
+      <section className="bg-amber-50 p-5 rounded-3xl border border-amber-200 space-y-4 relative overflow-hidden">
+        <div className="flex items-center gap-2 text-amber-900 font-black text-xs uppercase tracking-wider">
+          <ShieldAlert size={18} className="text-amber-600" />
+          <span>🇮🇹 義大利 ZTL (Zona a Traffico Limitato) 限行區</span>
         </div>
-        <div className="space-y-1">
-          <h3 className="text-primary font-bold text-base">氣候與穿衣</h3>
-          <p className="text-xs text-on-surface-variant leading-relaxed">
-            10月是寧波最美、最舒適的秋季，氣溫平均在 <span className="font-bold text-primary">16°C - 24°C</span> 之間，秋高氣爽。白天適合穿輕便襯衫或長袖 T 恤，晚上三江口或東錢湖畔風大，建議攜帶一件 <span className="font-bold text-primary">薄外套或風衣</span> 防風禦寒。
-          </p>
-        </div>
-      </section>
 
-      {/* Checklist Section */}
-      <section className="space-y-4">
-        <h3 className="text-lg font-bold text-on-surface flex items-center gap-2 px-1">
-          <CheckSquare className="text-primary" size={20} />
-          行前準備清單
-        </h3>
-        
-        <div className="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 shadow-sm space-y-4">
-          <CheckItem title="必備証件" desc="台胞證、回鄉證、護照等購票身份證明原件，需隨身攜帶，高鐵及飛機全部實名制查驗。" />
-          <CheckItem title="電子錢包" desc="下載支付寶或微信 App，綁定境外信用卡或大陸銀行卡，市區內商戶全部使用電子支付。" />
-          <CheckItem title="地圖導航" desc="在大陸旅遊首選「高德地圖」或「百度地圖」App，景點定位精準，且能查看實時公交、地鐵換乘與網約車軌跡。" />
-          <CheckItem title="預約門票" desc="部分熱門景點（如天一閣、寧波博物館、保國寺等）在國慶假期人流多，建議提前 1-3 天在微信小程序或微信公眾號進行預訂。" />
-        </div>
-      </section>
+        <h3 className="text-xl font-black text-amber-950">千萬不要開入紅圈 ZTL 告示牌區內！</h3>
+        <p className="text-xs text-amber-900 leading-relaxed font-medium">
+          義大利歷史古城（羅馬、佛羅倫斯、米蘭）中心區域皆為 ZTL 限行區。未具許可開入每次罰款 €110 - €350 歐元！
+        </p>
 
-      {/* Food Specialties */}
-      <section className="space-y-4">
-        <h3 className="text-lg font-bold text-on-surface flex items-center gap-2 px-1">
-          <Heart className="text-rose-500 fill-rose-500/10" size={20} />
-          寧波本幫美食推薦
-        </h3>
-
-        <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10 space-y-4">
-          <p className="text-xs text-on-surface-variant leading-relaxed font-semibold">
-            寧波菜又稱「甬幫菜」，以「鮮鹹合一」、注重原汁原味和鮮嫩軟滑著稱。以下美食千萬不要錯過：
-          </p>
-          <div className="grid grid-cols-1 gap-3">
-            <FoodCard name="紅膏熗蟹" desc="選用頂級紅膏梭子蟹，經鹽水醃製而成，果凍般的口感，鮮美無比！" />
-            <FoodCard name="雪菜大黃魚" desc="寧波傳統名菜，野生黃魚與精選雪菜同煮，魚肉細嫩，湯頭濃白極鮮。" />
-            <FoodCard name="慈城手工年糕" desc="稻米清香、口感極其軟糯有韌性。薺菜肉絲炒年糕是經典中的經典。" />
-            <FoodCard name="缸鴨狗黑芝麻湯糰" desc="香濃的豬油芝麻內餡配上水磨糯米皮，桂花香氣四溢，象徵團團圓圓。" />
+        <div className="space-y-2 text-xs text-amber-950 font-medium">
+          <div className="p-3 bg-white/80 rounded-2xl border border-amber-200">
+            <strong>規避原則 1：</strong> 選擇將車停在 ZTL 區域外的付費地下停車場（如佛羅倫斯 Villa Costanza 或車站地下停車場）。
+          </div>
+          <div className="p-3 bg-white/80 rounded-2xl border border-amber-200">
+            <strong>規避原則 2：</strong> 若住宿飯店位於 ZTL 區內，入住時務必請飯店協助向當地交警白名單系統報備車牌號碼。
           </div>
         </div>
       </section>
-    </div>
-  );
-}
 
-function CheckItem({ title, desc }: { title: string; desc: string }) {
-  return (
-    <div className="flex gap-3 items-start border-b border-surface-variant/30 pb-3 last:border-b-0 last:pb-0">
-      <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0"></div>
-      <div>
-        <p className="font-bold text-sm text-on-surface">{title}</p>
-        <p className="text-xs text-on-surface-variant leading-relaxed mt-1">{desc}</p>
-      </div>
-    </div>
-  );
-}
+      {/* Croatia Parking Rules */}
+      <section className="bg-surface-container-lowest p-5 rounded-3xl border border-outline-variant/10 shadow-sm space-y-4">
+        <div className="flex items-center gap-2 text-primary font-black text-xs uppercase tracking-wider">
+          <Car size={16} />
+          <span>🇭🇷 克羅埃西亞 停車格顏色與簡訊繳費</span>
+        </div>
 
-function FoodCard({ name, desc }: { name: string; desc: string }) {
-  return (
-    <div className="bg-white rounded-xl p-3.5 border border-outline-variant/10 shadow-sm">
-      <p className="font-bold text-sm text-primary">{name}</p>
-      <p className="text-xs text-on-surface-variant leading-relaxed mt-1 font-medium">{desc}</p>
+        <h3 className="text-xl font-black text-on-surface">克羅埃西亞三大 Zone 停車費標示</h3>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div className="p-3.5 bg-red-50 rounded-2xl border border-red-200 space-y-1">
+            <span className="font-extrabold text-red-900 block">Zone 1 (紅區)</span>
+            <p className="text-red-800">最靠近古城核心區。費率較高（約 €2-€4/小時），通常限制最長停 2 小時。</p>
+          </div>
+
+          <div className="p-3.5 bg-amber-50 rounded-2xl border border-amber-200 space-y-1">
+            <span className="font-extrabold text-amber-900 block">Zone 2 (黃區)</span>
+            <p className="text-amber-800">次核心商業區。費率中等（約 €1.5-€2.5/小時），無停車時間限制。</p>
+          </div>
+
+          <div className="p-3.5 bg-blue-50 rounded-2xl border border-blue-200 space-y-1">
+            <span className="font-extrabold text-blue-900 block">Zone 3 (綠/藍區)</span>
+            <p className="text-blue-800">距離古城步行 10-15 分鐘。費率最便宜（約 €1/小時或全天 €8）。</p>
+          </div>
+        </div>
+
+        <div className="p-4 bg-surface-container-high/40 rounded-2xl text-xs space-y-1">
+          <span className="font-black text-on-surface block">Plitvice 十六湖國家公園停車：</span>
+          <p className="text-on-surface-variant leading-relaxed">
+             Entrance 1 (一號入口) 與 Entrance 2 (二號入口) 皆備有大型林蔭停車場 P1 & P2，每小時約 €1.50 歐元，駛離時於自動繳費機刷卡付費即可。
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
