@@ -1,194 +1,193 @@
-import { Home, ChevronLeft, ChevronRight, PlaneTakeoff, Lightbulb, ExternalLink } from 'lucide-react';
+import React from 'react';
+import { Home, ChevronRight, Plane, Clock, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
+interface FlightOverviewItem {
+  date: string;
+  weekday: string;
+  code: string;
+  fromCode: string;
+  toCode: string;
+  depTime: string;
+  arrTime: string;
+  nextDay?: boolean;
+  flightNumbers: string;
+  type: '直飛' | '聯程';
+  duration?: string;
+  transfer?: string;
+  passengers: string;
+}
 
 export function FlightOverview() {
   const navigate = useNavigate();
 
-  const transitGroups = [
+  const journeyList: FlightOverviewItem[] = [
     {
-      category: '🛫 出發國際航班 (分批啟程)',
-      date: '09月27日 (日) - 第一批出發 (長榮航空直飛米蘭)',
-      transits: [
-        { 
-          carrier: '長榮航空 EVA AIRWAYS', 
-          code: 'BR95', 
-          from: '台北桃園 TPE (T2)', 
-          to: '米蘭馬爾彭薩 MXP (T1)', 
-          dep: '23:45 (9/27)', 
-          arr: '07:35 (9/28)', 
-          type: 'flight',
-          passengers: '第一批：小許、春香 (CHANG/CHUNHSIANG MS)、麗安 (共3人)',
-          badge: 'ANA 開票 / 訂位代號: FRJML3'
-        }
-      ]
+      date: '09/27',
+      weekday: '週日',
+      code: 'BR95',
+      fromCode: 'TPE',
+      toCode: 'MXP',
+      depTime: '23:45',
+      arrTime: '07:35',
+      nextDay: true,
+      flightNumbers: 'BR95',
+      type: '直飛',
+      duration: '13h 50m',
+      passengers: '春香・麗安・許振宏'
     },
     {
-      category: '🛫 出發國際航班 (分批啟程)',
-      date: '10月05日 (一) ~ 10月06日 (二) - 第二批出發 (卡達聯程 / 高雄出發)',
-      transits: [
-        { 
-          carrier: '國泰航空 CATHAY PACIFIC', 
-          code: 'CX423', 
-          from: '高雄小港 KHH (航廈 I)', 
-          to: '香港國際機場 HKG (T1)', 
-          dep: '13:40 (10/05)', 
-          arr: '15:25 (10/05)', 
-          type: 'flight',
-          passengers: '第二批：頭家娘 (WU HSIUPI)、小花 (共2人)',
-          badge: '已開票 (訂位: DFDT27 / 9BS2DV)'
-        },
-        { 
-          carrier: '卡達航空 QATAR AIRWAYS', 
-          code: 'QR817', 
-          from: '香港國際機場 HKG (T1)', 
-          to: '杜哈哈馬德 DOH', 
-          dep: '19:40 (10/05)', 
-          arr: '23:05 (10/05)', 
-          type: 'flight',
-          passengers: '第二批：小花、頭家娘',
-          badge: '中轉 3h05m'
-        },
-        { 
-          carrier: '卡達航空 QATAR AIRWAYS', 
-          code: 'QR215', 
-          from: '杜哈哈馬德 DOH', 
-          to: '薩格勒布 ZAG (克羅埃西亞)', 
-          dep: '02:10 (10/06)', 
-          arr: '06:55 (10/06)', 
-          type: 'flight',
-          passengers: '第二批：小花、頭家娘',
-          badge: '🇭🇷 抵達克國 5 人大會合'
-        }
-      ]
+      date: '10/05',
+      weekday: '週一',
+      code: 'KHH-ZAG',
+      fromCode: 'KHH',
+      toCode: 'ZAG',
+      depTime: '13:40',
+      arrTime: '06:55',
+      nextDay: true,
+      flightNumbers: 'CX423 → QR817 → QR215',
+      type: '聯程',
+      transfer: 'HKG 4h15m ・ DOH 3h05m',
+      passengers: '陳瓊花・WU HSIUPI'
     },
     {
-      category: '✈️ 歐洲區域航班 (克國直飛義大利)',
-      date: '10月21日 (三) - 瑞安航空直飛米蘭 (全員 5 人同行)',
-      transits: [
-        { 
-          carrier: '瑞安航空 RYANAIR (直飛)', 
-          code: 'FR5935', 
-          from: '杜布羅夫尼克 DBV', 
-          to: '米蘭貝爾加莫 BGY', 
-          dep: '14:25 (10/21)', 
-          arr: '16:00 (10/21)', 
-          type: 'flight',
-          passengers: '團隊全員 5 人 (小花、春香、小許、麗安、頭家娘)',
-          badge: 'CONFIRMED (訂位: V64LYT / XYCEMH)'
-        }
-      ]
+      date: '10/21',
+      weekday: '週三',
+      code: 'FR5935',
+      fromCode: 'DBV',
+      toCode: 'BGY',
+      depTime: '14:25',
+      arrTime: '16:00',
+      nextDay: false,
+      flightNumbers: 'FR5935',
+      type: '直飛',
+      duration: '1h 35m',
+      passengers: '5人全員'
     },
     {
-      category: '🛬 返程國際航班 (回國航段)',
-      date: '10月23日 (五) ~ 10月24日 (六) - 阿提哈德航空 (米蘭 ✈ 阿布達比 ✈ 台北)',
-      transits: [
-        { 
-          carrier: '阿提哈德航空 ETIHAD AIRWAYS', 
-          code: 'EY82', 
-          from: '米蘭馬爾彭薩 MXP (T1)', 
-          to: '阿布達比扎耶德 AUH (航廈 A)', 
-          dep: '11:40 (10/23)', 
-          arr: '19:40 (10/23)', 
-          type: 'flight',
-          passengers: '頭家娘 (商務艙 06A)；小許、春香、麗安 (經濟艙)',
-          badge: '已開票 (訂位: 9C3DNV / EHYP25 / EICOKU / EI6U7S)'
-        },
-        { 
-          carrier: '阿提哈德航空 ETIHAD AIRWAYS', 
-          code: 'EY898', 
-          from: '阿布達比扎耶德 AUH (航廈 A)', 
-          to: '台北桃園 TPE (T2)', 
-          dep: '21:20 (10/23)', 
-          arr: '10:00 (10/24 次日)', 
-          type: 'flight',
-          passengers: '頭家娘 (商務艙 06D)；小許、春香、麗安 (經濟艙)',
-          badge: '10/24 10:00 圓滿返抵台北'
-        }
-      ]
+      date: '10/23',
+      weekday: '週五',
+      code: 'EY82',
+      fromCode: 'MXP',
+      toCode: 'TPE',
+      depTime: '11:40',
+      arrTime: '10:00',
+      nextDay: true,
+      flightNumbers: 'EY82 → EY898',
+      type: '聯程',
+      transfer: 'AUH 1h40m',
+      passengers: 'WU HSIUPI・春香・麗安・許振宏'
     }
   ];
 
   return (
-    <div className="mt-20 px-4 pb-44 max-w-3xl mx-auto space-y-6">
+    <div className="mt-20 px-4 pb-44 max-w-xl mx-auto space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <span className="text-primary font-black text-xs uppercase tracking-widest block">🇮🇹🇭🇷 航班機票資訊</span>
-          <h1 className="text-2xl font-black text-on-surface tracking-tight">國際與歐洲區域航班</h1>
+          <span className="text-primary font-black text-[11px] uppercase tracking-widest block">FLIGHTS</span>
+          <h1 className="text-2xl font-black text-on-surface tracking-tight">航班總覽</h1>
         </div>
         <button 
           onClick={() => navigate('/')}
-          className="p-2.5 rounded-2xl bg-surface-container-lowest border border-outline-variant/10 shadow-sm hover:bg-surface-container-low transition-colors"
+          className="p-2.5 rounded-2xl bg-surface-container-lowest border border-outline-variant/10 shadow-sm hover:bg-surface-container-low active:scale-95 transition-all"
+          title="回首頁"
         >
           <Home size={18} className="text-on-surface" />
         </button>
       </div>
 
-      <div className="space-y-6">
-        {transitGroups.map((group, idx) => (
-          <section key={idx} className="space-y-3">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-black px-2.5 py-1 rounded-lg bg-primary/10 text-primary">
-                {group.category}
+      {/* Flight Journey Cards */}
+      <div className="space-y-3.5">
+        {journeyList.map((item) => (
+          <div 
+            key={item.code}
+            onClick={() => navigate(`/flights/${item.code}`)}
+            className="cursor-pointer bg-surface-container-lowest p-4 sm:p-5 rounded-2xl shadow-xs border border-outline-variant/15 hover:border-primary/40 active:scale-[0.99] transition-all space-y-3"
+          >
+            {/* Top Row: Date & Type Badge */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-base sm:text-lg font-black text-on-surface font-mono">{item.date}</span>
+                <span className="text-xs font-bold text-on-surface-variant">{item.weekday}</span>
+              </div>
+              <span className={`text-[11px] font-black px-2.5 py-0.5 rounded-full border ${
+                item.type === '直飛'
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                  : 'bg-primary/5 text-primary border-primary/20'
+              }`}>
+                {item.type}
               </span>
-              <h2 className="text-xs font-extrabold tracking-tight text-on-surface-variant">
-                {group.date}
-              </h2>
             </div>
-            <div className="grid grid-cols-1 gap-3">
-              {group.transits.map((item, fIdx) => (
-                <div 
-                  key={fIdx}
-                  onClick={() => navigate(`/flights/${item.code}`)}
-                  className="relative group cursor-pointer bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-outline-variant/10 hover:border-primary/30 transition-all border-l-4 border-l-primary"
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="text-primary font-black text-xs flex items-center gap-1.5 uppercase tracking-wider">
-                        <PlaneTakeoff size={14} />
-                        {item.carrier} {item.code}
-                      </p>
-                      <div className="flex items-center gap-3 mt-2">
-                        <span className="text-2xl font-black text-on-surface">{item.dep}</span>
-                        <span className="text-outline text-xs font-bold">➜</span>
-                        <span className="text-2xl font-black text-on-surface">{item.arr}</span>
-                      </div>
-                      <p className="text-xs text-on-surface-variant font-bold mt-1">{item.from} → {item.to}</p>
-                      {item.passengers && (
-                        <div className="mt-2.5 flex items-center gap-1.5 text-[11px] font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg w-fit">
-                          <span>搭乘成員：{item.passengers}</span>
-                        </div>
-                      )}
-                    </div>
-                    <ChevronRight className="text-primary group-hover:translate-x-1 transition-transform mt-1" size={20} />
-                  </div>
+
+            {/* Main Time & Route Row */}
+            <div className="flex items-center justify-between pt-0.5">
+              {/* Departure */}
+              <div className="text-left">
+                <div className="text-3xl font-black text-on-surface tracking-tight font-mono leading-none">
+                  {item.depTime}
                 </div>
-              ))}
+                <div className="text-sm font-black text-primary mt-1 font-mono">
+                  {item.fromCode}
+                </div>
+              </div>
+
+              {/* Middle Plane & Flight Path */}
+              <div className="flex flex-col items-center flex-1 px-4 max-w-[140px]">
+                {item.duration && (
+                  <span className="text-[10px] font-bold text-outline uppercase tracking-wider mb-0.5 font-mono">
+                    {item.duration}
+                  </span>
+                )}
+                <div className="w-full h-[1.5px] bg-primary/25 relative my-1">
+                  <Plane className="text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90" size={13} fill="currentColor" />
+                </div>
+              </div>
+
+              {/* Arrival */}
+              <div className="text-right">
+                <div className="flex items-center justify-end gap-1 leading-none">
+                  <span className="text-3xl font-black text-on-surface tracking-tight font-mono">
+                    {item.arrTime}
+                  </span>
+                  {item.nextDay && (
+                    <span className="text-[10px] font-black bg-amber-100 text-amber-900 border border-amber-300 px-1 py-0.5 rounded leading-none">
+                      +1
+                    </span>
+                  )}
+                </div>
+                <div className="text-sm font-black text-primary mt-1 font-mono">
+                  {item.toCode}
+                </div>
+              </div>
             </div>
-          </section>
+
+            {/* Flight Numbers & Transfers */}
+            <div className="pt-2 border-t border-outline-variant/10 flex flex-col gap-1.5 text-xs">
+              <div className="flex items-center justify-between text-on-surface-variant">
+                <span className="font-mono font-bold text-primary tracking-wide text-xs">
+                  {item.flightNumbers}
+                </span>
+                <ChevronRight size={16} className="text-outline" />
+              </div>
+
+              {/* Transfer Info (if connecting flight) */}
+              {item.transfer && (
+                <div className="flex items-center gap-1.5 text-[11px] font-medium text-amber-900 bg-amber-500/10 px-2 py-1 rounded-lg w-fit">
+                  <Clock size={12} className="text-amber-700 shrink-0" />
+                  <span>{item.transfer}</span>
+                </div>
+              )}
+
+              {/* Passengers */}
+              <div className="flex items-center gap-1.5 text-[11px] font-medium text-on-surface-variant pt-0.5">
+                <Users size={12} className="text-outline shrink-0" />
+                <span>{item.passengers}</span>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
-
-      <section className="bg-surface-container-lowest rounded-3xl p-5 border border-outline-variant/10 shadow-sm space-y-3">
-        <div className="flex items-center gap-2">
-          <Lightbulb className="text-amber-500" size={20} />
-          <h3 className="text-base font-extrabold text-on-surface">搭機與行李通關須知</h3>
-        </div>
-        <ul className="space-y-2 text-xs text-on-surface-variant leading-relaxed font-medium">
-          <li className="flex gap-2 items-start">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0"></span>
-            <span><strong className="text-on-surface">申根區域免簽：</strong>持台灣護照享 90 天申根免簽。護照需有 6 個月以上效期。</span>
-          </li>
-          <li className="flex gap-2 items-start">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0"></span>
-            <span><strong className="text-on-surface">托運行李限額：</strong>國際長程線通常含 2 件 23kg 托運行李；歐洲區域線請確認機票是否含託運。</span>
-          </li>
-          <li className="flex gap-2 items-start">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0"></span>
-            <span><strong className="text-on-surface">退稅蓋章 (Tax Free)：</strong>米蘭馬爾彭薩機場 (MXP) 辦理退稅時，託運行李退稅單需在 Check-in 前向海關出示退稅商品！</span>
-          </li>
-        </ul>
-      </section>
     </div>
   );
 }

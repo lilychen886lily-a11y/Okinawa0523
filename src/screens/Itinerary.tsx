@@ -429,8 +429,8 @@ export function Itinerary() {
           title: '【第二批啟程】小花與頭家娘 高雄小港 ✈ 香港 ✈ 杜哈 (CX423 / QR817)',
           badge: '第二批出發 (訂位: DFDT27 / 9BS2DV)',
           description: '第二批成員（頭家娘、小花）13:40 從高雄小港機場航廈 I 搭乘國泰航空 CX423 飛抵香港 (15:25)，接續 19:40 卡達航空 QR817 直飛杜哈轉機，前往克羅埃西亞會合！',
-          actionLabel: '查看第二批機票詳情',
-          onClickAction: () => navigate('/flights/CX423')
+          actionLabel: '查看第二批聯程機票詳情',
+          onClickAction: () => navigate('/flights/KHH-ZAG')
         },
         {
           time: '17:30',
@@ -456,8 +456,8 @@ export function Itinerary() {
           title: '【團隊全員大會合】第二批（小花、頭家娘）飛抵薩格勒布機場 (QR215)',
           badge: '🇭🇷 全員 5 人正式到齊',
           description: '卡達航空 QR215 於 06:55 順利降落薩格勒布機場 (ZAG)。第二批（小花、頭家娘）完成入境通關與行李提取後，與第一批成員（小許、春香、麗安）5 人大會合，展開克羅埃西亞仙境之旅！',
-          actionLabel: '查看航班詳情',
-          onClickAction: () => navigate('/flights/QR215')
+          actionLabel: '查看聯程航班詳情',
+          onClickAction: () => navigate('/flights/KHH-ZAG')
         },
         {
           time: '09:30',
